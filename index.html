@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jonuts - Delicious Donuts!</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="w3-top w3-hide-small">
+    <div class="w3-bar w3-xlarge w3-black custom-navbar" id="myNavbar">
+        <a href="#home" class="w3-bar-item w3-button">HOME</a>
+        <a href="#menu" class="w3-bar-item w3-button">MENU</a>
+        <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
+        <a href="#testimonials" class="w3-bar-item w3-button">TESTIMONIALS</a>
+        <a href="#game" class="w3-bar-item w3-button" onclick="prepareGame()">CATCH THE DONUTS</a>
+        <a href="#contact" class="w3-bar-item w3-button">CONTACT</a>
+    </div>
+</div>
+
+<header class="bgimg w3-display-container" id="home">
+    <video autoplay loop muted playsinline>
+        <source src="vecteezy_assorted-colorful-glazed-donuts-with-sprinkles-on-a-pink_44845313.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="header-content">
+        <span class="main-title"><b>JONUTS</b></span>
+        <p><a href="#menu" class="w3-button w3-white w3-xxlarge w3-text-pink w3-padding-large w3-margin-top w3-round-large">Let me see the menu</a></p>
+    </div>
+    <div class="tag-open">
+         <span class="w3-tag w3-pink w3-xlarge w3-round">Open 24/7</span>
+    </div>
+</header>
+
+<div class="w3-container w3-padding-64 section-container" id="menu">
+    <div class="w3-content">
+        <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">THE MENU</h1>
+        
+        <!-- Menu tabs/navigation -->
+        <div class="w3-row w3-center w3-border w3-border-dark-grey menu-tabs animate-on-scroll">
+            <a href="javascript:void(0)" onclick="openMenu(event, 'Donuts');">
+                <div class="w3-col s4 tablink w3-padding-large active" id="defaultOpen">Donuts</div>
+            </a>
+            <a href="javascript:void(0)" onclick="openMenu(event, 'Drinks');">
+                <div class="w3-col s4 tablink w3-padding-large">Drinks</div>
+            </a>
+            <a href="javascript:void(0)" onclick="openMenu(event, 'Breads');">
+                <div class="w3-col s4 tablink w3-padding-large">Breads</div>
+            </a>
+        </div>
+        
+        <!-- Menu content sections -->
+        <div id="Donuts" class="menu-content">
+            <div class="menu-items-container" id="donutMenuContainer">
+                <!-- Donuts will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <div id="Drinks" class="menu-content" style="display:none">
+            <div class="menu-items-container" id="drinkMenuContainer">
+                <!-- Drinks will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <div id="Breads" class="menu-content" style="display:none">
+            <div class="menu-items-container" id="breadMenuContainer">
+                <!-- Breads will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w3-container w3-padding-64 section-container" id="about">
+  <div class="w3-content">
+    <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">ABOUT US</h1>
+    <p class="animate-on-scroll">Welcome to Jonuts! We started with a simple passion: creating the most delightful donuts you've ever tasted...</p>
+    <p class="animate-on-scroll">Come visit us and experience the joy of a perfect donut!</p>
+     <div class="w3-center w3-padding-32 animate-on-scroll">
+         <img src="https://via.placeholder.com/500x300/FFC0CB/000000?text=Happy+Bakers" alt="Bakers" class="w3-image about-image">
+     </div>
+  </div>
+</div>
+
+<div class="w3-container w3-padding-64 section-container testimonials-section" id="testimonials">
+    <div class="w3-content">
+        <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">WHAT PEOPLE SAY</h1>
+        <div id="testimonialContainer" class="w3-row-padding">
+            </div>
+    </div>
+</div>
+
+<div class="w3-container w3-padding-64 section-container game-section" id="game">
+     <div class="w3-content">
+         <h1 class="w3-center section-title animate-on-scroll">CATCH THE DONUTS!</h1>
+         <p class="w3-center animate-on-scroll">Click the falling donuts to score points!</p>
+         <div id="gameArea" class="animate-on-scroll">
+             </div>
+         <div id="scoreBoard">Score: 0</div>
+         <div id="gameOverMessage" class="game-over-message"></div> <button id="startGameButton" class="w3-button w3-pink w3-large w3-margin-top w3-round" onclick="startGame()">Start Game</button>
+         <button id="stopGameButton" class="w3-button w3-grey w3-large w3-margin-top w3-round" onclick="stopGame()">Stop Game</button>
+     </div>
+</div>
+
+<footer class="w3-container w3-padding-64 section-container contact-section" id="contact">
+  <div class="w3-content">
+    <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">CONTACT US</h1>
+    <p class="animate-on-scroll">Find us at Jonuts Lane, Sweet Street 123, Mandaue City or call us at 0917-JONUTS (566887).</p>
+    <p class="animate-on-scroll">We're open <b>24/7</b>!</p>
+    <p class="animate-on-scroll">Want to partner with us or have a large order? Send us a message:</p>
+    <form action="/action_page.php" target="_blank" class="animate-on-scroll">
+      <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Name" required name="Name"></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="number" placeholder="How many people" required name="People"></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" placeholder="Date and time" required name="date" value="2025-04-11T20:00"></p> <p><input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Message \ Special requirements" required name="Message"></p>
+      <p><button class="w3-button w3-pink w3-round-large w3-padding-large" type="submit">SEND MESSAGE</button></p>
+    </form>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>

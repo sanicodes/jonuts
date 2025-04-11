@@ -1,0 +1,696 @@
+/* === styles.css === */
+
+/* Basic Reset & Defaults */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body,
+html {
+	height: 100%;
+	line-height: 1.6;
+}
+
+/* --- Font Definitions --- */
+body {
+	font-family: 'Lato', sans-serif;
+	/* Default body font */
+	font-size: 16px;
+	/* Base font size */
+	color: #333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.main-title,
+.section-title {
+	font-family: "Amatic SC", cursive, sans-serif;
+	/* Heading font */
+	font-weight: 700;
+	/* Ensure heading weight is applied */
+	letter-spacing: 2px;
+}
+
+/* Apply Amatic SC specifically where desired */
+#menu h1 b,
+/* Donut names in menu */
+.main-title,
+.section-title {
+	font-family: "Amatic SC", cursive, sans-serif;
+}
+
+/* Ensure paragraphs and other elements use Lato */
+p,
+.w3-text-grey,
+.w3-input,
+.w3-button,
+.tablink,
+#scoreBoard,
+.testimonial-author {
+	font-family: 'Lato', sans-serif;
+}
+
+.testimonial-quote {
+	font-style: italic;
+	font-family: 'Lato', sans-serif;
+}
+
+
+/* --- Navbar --- */
+.custom-navbar {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+	transition: background-color 0.3s ease-in-out;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+.custom-navbar-scrolled {
+	background-color: rgba(0, 0, 0, 0.9);
+}
+
+.custom-navbar .w3-bar-item {
+	padding: 12px 24px;
+	letter-spacing: 1px;
+	/* Slightly reduced letter spacing for navbar */
+	transition: background-color 0.2s ease;
+	font-family: 'Lato', sans-serif;
+	/* Navbar font */
+	font-weight: bold;
+	font-size: 1.1rem;
+	/* Adjusted navbar font size */
+}
+
+.custom-navbar .w3-bar-item:hover {
+	background-color: #ff69b4 !important;
+	color: #fff !important;
+	/* White text on pink hover */
+}
+
+/* --- Header --- */
+.bgimg {
+	position: relative;
+	overflow: hidden;
+	min-height: 100vh;
+	background-color: #333;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bgimg video {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	min-width: 100%;
+	min-height: 100%;
+	width: auto;
+	height: auto;
+	z-index: -1;
+	transform: translate(-50%, -50%);
+	object-fit: cover;
+}
+
+.header-content {
+	position: relative;
+	z-index: 1;
+	color: white;
+	text-align: center;
+	padding: 30px;
+	background-color: rgba(0, 0, 0, 0.55);
+	border-radius: 15px;
+	max-width: 90%;
+}
+
+.header-content .main-title {
+	font-size: clamp(4rem, 15vw, 12rem);
+	color: #ffc0cb;
+	text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+	animation: fadeInScale 1.5s ease-out forwards;
+	opacity: 0;
+}
+
+.header-content p {
+	margin-top: 20px;
+}
+
+.header-content .w3-button {
+	transition: transform 0.2s ease, background-color 0.2s ease;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+	font-family: "Amatic SC", cursive, sans-serif;
+	/* Button font */
+}
+
+.header-content .w3-button:hover {
+	transform: scale(1.05);
+	background-color: #ff69b4 !important;
+	color: #fff !important;
+}
+
+.tag-open {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+	z-index: 2;
+}
+
+/* --- General Section Styling --- */
+.section-container {
+	padding-top: 80px;
+	/* Avoid navbar overlap */
+	padding-bottom: 64px;
+	border-bottom: 1px solid #eee;
+	/* Subtle separator */
+}
+
+#menu {
+	background-color: #fff;
+}
+
+/* White menu background */
+#about {
+	background-color: #fdfdfd;
+}
+
+/* Slightly off-white about */
+.testimonials-section {
+	background-color: #fff5f8;
+}
+
+/* Very light pink for testimonials */
+.game-section {
+	background-color: #e0f7fa;
+}
+
+.contact-section {
+	background-color: #f4f4f4;
+}
+
+.section-title {
+	color: #d14580;
+	/* Darker pink for titles */
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+	font-size: clamp(3rem, 8vw, 5rem);
+	/* Responsive section titles */
+}
+
+/* --- About Section --- */
+#about h1.section-title {
+	/* Target specifically */
+	color: #d14580;
+}
+
+.about-image {
+	width: 100%;
+	max-width: 500px;
+	border-radius: 8px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* --- Testimonials Section --- */
+.testimonials-section h1.section-title {
+	color: #c2185b;
+	/* Slightly different pink */
+}
+
+.testimonial-card {
+	padding: 20px;
+	border-radius: 8px;
+	min-height: 220px;
+	/* Ensure cards have similar height */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.testimonial-quote {
+	font-size: 1rem;
+	color: #555;
+	margin-bottom: 15px;
+	flex-grow: 1;
+	/* Allow quote to take up space */
+}
+
+.testimonial-author {
+	font-size: 1rem;
+	color: #d14580;
+	margin-bottom: 5px;
+	text-align: right;
+}
+
+.testimonial-rating {
+	font-size: 1.1rem;
+	color: #ffc107;
+	/* Gold color for stars */
+	text-align: right;
+}
+
+
+/* --- Game Section --- */
+.game-section h1.section-title {
+	color: #00796b;
+}
+
+#gameArea {
+	width: 80%;
+	max-width: 600px;
+	height: 400px;
+	border: 2px solid #b2dfdb;
+	/* Lighter border */
+	margin: 20px auto;
+	position: relative;
+	overflow: hidden;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.falling-donut {
+	position: absolute;
+	top: 0;
+	width: 50px;
+	height: 50px;
+	background-image: url('https://via.placeholder.com/50/FF69B4/FFFFFF?text=O');
+	/* Placeholder Donut */
+	background-size: cover;
+	border-radius: 50%;
+	cursor: pointer;
+	animation-name: fall;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+	/* JS sets duration */
+}
+
+
+#scoreBoard {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-top: 10px;
+	color: #00796b;
+}
+
+.game-over-message {
+	color: #d32f2f;
+	/* Red color for game over */
+	font-size: 1.8rem;
+	font-weight: bold;
+	margin-top: 15px;
+	height: 30px;
+	/* Allocate space even when empty */
+	text-align: center;
+	font-family: "Amatic SC", cursive, sans-serif;
+	/* Use heading font */
+	letter-spacing: 2px;
+	opacity: 0;
+	/* Hidden initially */
+	transition: opacity 0.5s ease-in-out;
+}
+
+
+.game-over-message.visible {
+	opacity: 1;
+	/* Make visible when game is over */
+}
+
+
+@keyframes fall {
+
+	/* Game animation */
+	from {
+		top: 0;
+	}
+
+	to {
+		top: 100%;
+	}
+
+	/* Ensure it goes fully past the bottom */
+}
+
+/* --- Contact Section --- */
+.contact-section h1.section-title {
+	color: #d14580;
+}
+
+.contact-section p b {
+	color: #d14580;
+}
+
+.contact-section .w3-input {
+	border-radius: 5px;
+	/* Slightly rounded inputs */
+}
+
+.contact-section .w3-button {
+	transition: background-color 0.3s ease;
+}
+
+.contact-section .w3-button:hover {
+	background-color: #c2185b !important;
+	/* Darker pink on hover */
+}
+
+/* --- Animations --- */
+@keyframes fadeInScale {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeInLeft {
+	from {
+		opacity: 0;
+		transform: translateX(-50px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes fadeInRight {
+	from {
+		opacity: 0;
+		transform: translateX(50px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+
+@keyframes fall {
+
+	/* Game animation */
+	from {
+		top: -50px;
+	}
+
+	to {
+		top: 100%;
+	}
+}
+
+/* Scroll Animation Class */
+.animate-on-scroll {
+	opacity: 0;
+	/* Start hidden */
+	transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Define different animation start states (JS will add 'visible' class) */
+.animate-on-scroll.fade-in-up {
+	transform: translateY(30px);
+}
+
+.animate-on-scroll.fade-in-left {
+	transform: translateX(-50px);
+}
+
+.animate-on-scroll.fade-in-right {
+	transform: translateX(50px);
+}
+
+/* Add more types as needed */
+
+/* State when element becomes visible */
+.animate-on-scroll.visible {
+	opacity: 1;
+	transform: translate(0, 0);
+	/* Reset transform */
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+
+	/* Adjust breakpoint for testimonials if needed */
+	.testimonial-card {
+		min-height: unset;
+		/* Allow height to adjust on smaller screens */
+	}
+}
+
+@media (max-width: 600px) {
+	body {
+		font-size: 15px;
+	}
+
+	/* Slightly smaller base font */
+
+	.header-content .main-title {
+		font-size: 3.5rem;
+	}
+
+	.section-title {
+		font-size: 2.5rem;
+	}
+
+	.custom-navbar .w3-bar-item {
+		padding: 10px 14px;
+		font-size: 1rem;
+	}
+
+	.menu-tabs .w3-col {
+		width: 100%;
+		border-bottom: 1px solid #eee;
+	}
+
+	.menu-tabs .tablink {
+		border-bottom-color: transparent !important;
+	}
+
+	/* Remove bottom border when stacked */
+	.menu-tabs .tablink.active {
+		background-color: #f1f1f1;
+	}
+
+	#gameArea {
+		width: 95%;
+		height: 400px;
+	}
+
+	.w3-col.l4.m6 {
+		/* Ensure testimonials stack properly */
+		width: 100%;
+	}
+}
+
+
+/* --- Enhanced Menu Section with Consistent Sizes --- */
+.menu-items-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 25px;
+	padding: 20px 0;
+}
+
+.menu-item-card {
+	background-color: white;
+	border-radius: 12px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	border: 1px solid #f0f0f0;
+	/* Fixed height to ensure consistency */
+	min-height: 450px;
+}
+
+.menu-item-card:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.menu-item-image {
+	position: relative;
+	overflow: hidden;
+	/* Fixed height for all images */
+	height: 200px;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.menu-item-img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.5s ease;
+}
+
+.menu-item-card:hover .menu-item-img {
+	transform: scale(1.05);
+}
+
+.menu-item-content {
+	padding: 20px;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.menu-item-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 10px;
+}
+
+.menu-item-title {
+	font-size: 24px;
+	margin: 0;
+	padding: 0;
+	color: #333;
+	font-family: "Amatic SC", cursive, sans-serif;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+.menu-item-price {
+	font-weight: bold;
+	color: #d14580;
+	font-size: 20px;
+	background-color: #fff5f8;
+	padding: 5px 12px;
+	border-radius: 20px;
+	display: inline-block;
+}
+
+.menu-item-description {
+	color: #666;
+	margin-bottom: 15px;
+	flex-grow: 1;
+	/* Set height to ensure consistent text area */
+	min-height: 60px;
+	/* Line clamp to prevent overflow */
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.menu-item-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	margin-bottom: 15px;
+	min-height: 28px;
+	/* Ensure consistent height even without tags */
+}
+
+.menu-item-tag {
+	padding: 3px 10px;
+	border-radius: 12px;
+	font-size: 12px;
+	background-color: #ff69b4;
+	color: white;
+}
+
+.menu-item-actions {
+	display: flex;
+	justify-content: center;
+	margin-top: auto;
+}
+
+.menu-item-button {
+	background-color: #d14580;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 25px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	width: 100%;
+}
+
+.menu-item-button:hover {
+	background-color: #ff69b4;
+	transform: scale(1.03);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.menu-item-card {
+		min-height: 420px;
+	}
+
+	.menu-item-description {
+		min-height: 48px;
+	}
+}
+
+.menu-tabs .tablink {
+	transition: background-color 0.3s ease, color 0.3s ease, border-bottom-color 0.3s ease;
+	border-bottom: 3px solid transparent;
+	color: #555;
+	font-weight: bold;
+	/* Bold tab links */
+
+}
+
+.menu-tabs .tablink:hover {
+	background-color: #f8a8bb;
+	color: #000;
+}
+
+.menu-tabs .tablink.active {
+	background-color: #fff;
+	color: #d14580;
+	border-bottom: 3px solid #d14580;
+}
