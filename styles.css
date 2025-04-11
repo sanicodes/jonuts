@@ -694,3 +694,182 @@ p,
 	color: #d14580;
 	border-bottom: 3px solid #d14580;
 }
+
+
+/* --- Cart Styles --- */
+
+#cartToggleButton {
+	transition: transform 0.2s ease-in-out;
+}
+
+#cartToggleButton:hover {
+	transform: scale(1.1);
+}
+
+#cartItemCount {
+	min-width: 20px;
+	/* Ensure badge looks okay even with single digit */
+	height: 20px;
+	line-height: 20px;
+	/* Vertically center number */
+	border-radius: 50%;
+}
+
+
+/* --- Side Cart Panel Styles --- */
+.side-cart-panel {
+	position: fixed;
+	top: 0;
+	right: 0;
+	height: 100vh;
+	/* Full height */
+	width: 350px;
+	/* Adjust width as needed */
+	max-width: 90vw;
+	/* Ensure it doesn't take full width on small screens */
+	background-color: #fefefe;
+	z-index: 1001;
+	/* Ensure it's above other content but potentially below top navbar if needed */
+	box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+	display: flex;
+	flex-direction: column;
+	/* Stack header, content, footer vertically */
+	transform: translateX(100%);
+	/* Start hidden off-screen to the right */
+	transition: transform 0.4s ease-in-out;
+	/* Animation for sliding */
+}
+
+.side-cart-panel.is-visible {
+	transform: translateX(0);
+	/* Slide into view */
+}
+
+.side-cart-panel header {
+	flex-shrink: 0;
+	/* Prevent header from shrinking */
+}
+
+.side-cart-panel header h2 {
+	color: white;
+	/* Ensure heading text is visible */
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.side-cart-panel #closeSideCartButton {
+	color: white;
+	transition: color 0.3s ease;
+}
+
+.side-cart-panel #closeSideCartButton:hover {
+	color: #333;
+}
+
+
+.side-cart-panel .cart-items-container {
+	flex-grow: 1;
+	/* Allow container to take up available space */
+	overflow-y: auto;
+	/* Add scrollbar if content overflows */
+	padding: 10px 0px;
+	/* Add some padding */
+}
+
+/* Reuse cart item styles (adjust padding if needed) */
+.cart-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 15px;
+	/* Adjusted padding for side panel */
+	border-bottom: 1px solid #eee;
+	font-size: 0.95rem;
+}
+
+.cart-item:last-child {
+	border-bottom: none;
+}
+
+.cart-item-details {
+	flex-grow: 1;
+	margin-right: 10px;
+}
+
+.cart-item-details .item-name {
+	font-weight: bold;
+}
+
+.cart-item-details .item-price {
+	color: #666;
+	font-size: 0.9em;
+}
+
+.cart-item-actions {
+	display: flex;
+	align-items: center;
+}
+
+.cart-item-actions button {
+	background-color: #ddd;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	font-weight: bold;
+	margin: 0 5px;
+	transition: background-color 0.2s ease;
+}
+
+.cart-item-actions button:hover {
+	background-color: #ccc;
+}
+
+.cart-item-actions .remove-item-btn {
+	background-color: #f44336;
+	/* Red */
+	color: white;
+	margin-left: 10px;
+}
+
+.cart-item-actions .remove-item-btn:hover {
+	background-color: #d32f2f;
+	/* Darker red */
+}
+
+.cart-item-actions span {
+	/* Quantity display */
+	min-width: 20px;
+	text-align: center;
+	font-weight: bold;
+}
+
+/* End reuse */
+
+
+.side-cart-panel footer {
+	flex-shrink: 0;
+	/* Prevent footer from shrinking */
+	border-top: 1px solid #ddd;
+}
+
+/* Responsive adjustment */
+@media (max-width: 600px) {
+	.side-cart-panel {
+		width: 85vw;
+		/* Make panel wider on small screens */
+	}
+
+	.cart-item {
+		font-size: 0.9rem;
+		/* Slightly smaller font in cart */
+	}
+
+	.cart-item-actions button {
+		width: 22px;
+		height: 22px;
+		line-height: 22px;
+	}
+}
