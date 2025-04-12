@@ -598,7 +598,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	renderMenuItems('drinks', 'drinkMenuContainer');
 	renderMenuItems('breads', 'breadMenuContainer');
 	renderTestimonials('testimonialContainer');
-
 	renderTestimonialsCarousel();
 
 	// Set initial menu state
