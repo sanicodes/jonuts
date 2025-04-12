@@ -599,7 +599,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	renderMenuItems('breads', 'breadMenuContainer');
 	renderTestimonials('testimonialContainer');
 	renderTestimonialsCarousel();
-
 	// Set initial menu state
 	if (document.getElementById("defaultOpen")) {
 		document.getElementById("defaultOpen").click();
