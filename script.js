@@ -370,30 +370,51 @@ function gameOver() {
 
 
 function createDonut() {
-	// Check if game is active *before* creating a donut
 	if (!gameActive || !gameArea) {
-		return; // Don't create if game isn't running
+		return;
 	}
 
 	const donut = document.createElement('div');
 	donut.classList.add('falling-donut');
 
+	// Array of donut PNG image paths
+	const donutImages = [
+		'images/donut1.png',
+		'images/donut2.png',
+		'images/donut3.png',
+		'images/donut4.png',
+		'images/donut5.png'
+		// Add paths to all your PNG files
+	];
+
+	// Pick a random donut image
+	const randomImagePath = donutImages[Math.floor(Math.random() * donutImages.length)];
+
+	// Create image element
+	const img = document.createElement('img');
+	img.src = randomImagePath;
+	img.alt = 'Donut';
+	img.style.width = '100%';
+	img.style.height = '100%';
+
+	// Add image to the donut div
+	donut.appendChild(img);
+
 	// Positioning logic
 	const gameAreaWidth = gameArea.offsetWidth;
-	const donutSize = 50;
+	const donutSize = 60; // Adjust based on your PNG sizes
+	donut.style.width = donutSize + 'px';
+	donut.style.height = donutSize + 'px';
+
 	if (gameAreaWidth > donutSize) {
 		donut.style.left = Math.random() * (gameAreaWidth - donutSize) + 'px';
 	} else {
 		donut.style.left = '0px';
 	}
 
-	// Animation and appearance
+	// Animation duration
 	const fallDuration = Math.random() * 3 + 3;
 	donut.style.animationDuration = fallDuration + 's';
-	const colors = ['#FF69B4', '#8B4513', '#ADD8E6', '#FFD700', '#BA55D3'];
-	const randomColor = colors[Math.floor(Math.random() * colors.length)];
-	donut.style.backgroundImage = `radial-gradient(circle, white 30%, ${randomColor} 70%)`;
-
 
 	// Click listener
 	donut.addEventListener('click', function() {
@@ -403,33 +424,28 @@ function createDonut() {
 		requestAnimationFrame(() => { if (donut.parentNode) { donut.remove(); } });
 	});
 
-	// Animation End Listener - *** UPDATED DEBUG LOGGING ***
+	// Animation End Listener
 	donut.addEventListener('animationend', function handleAnimationEnd() {
-		console.log(`animationend fired. gameActive: ${gameActive}`); // DEBUG
+		console.log(`animationend fired. gameActive: ${gameActive}`);
 
-		// When animation ends, if the game is still active, this means the donut wasn't clicked
-		// and has reached the bottom - it's a miss!
 		if (gameActive) {
-			console.log("GAME OVER: Donut reached bottom without being clicked!"); // DEBUG
-
-			// Remove the donut
+			console.log("GAME OVER: Donut reached bottom without being clicked!");
 			if (donut.parentNode) {
 				donut.remove();
 			}
-
-			// End the game immediately
 			gameOver();
 		} else {
-			// Game already stopped/over, just clean up the donut
 			if (donut.parentNode) {
 				donut.remove();
 			}
 		}
-	});	// Append the donut only if gameArea exists
+	});
+
 	if (gameArea) {
 		gameArea.appendChild(donut);
 	}
 }
+
 function updateScore() {
 	if (scoreBoard) scoreBoard.textContent = 'Score: ' + score;
 }
