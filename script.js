@@ -642,6 +642,36 @@ function setUpActiveLink() {
 	});
 }
 
+function setUpMenuToggle() {
+	const menuToggle = document.getElementById('menuToggle');
+	const navCollapsible = document.getElementById('navCollapsible');
+
+	if (menuToggle && navCollapsible) {
+		menuToggle.addEventListener('click', () => {
+			// Toggle the 'mobile-menu-open' class on the collapsible container
+			navCollapsible.classList.toggle('mobile-menu-open');
+
+			// Optional: Change hamburger icon to 'X' when open
+			if (navCollapsible.classList.contains('mobile-menu-open')) {
+				menuToggle.innerHTML = '&times;'; // 'X' symbol
+			} else {
+				menuToggle.innerHTML = '&#9776;'; // Hamburger symbol
+			}
+		});
+
+		// Optional: Close menu when a link inside it is clicked
+		navCollapsible.querySelectorAll('a').forEach(link => {
+			link.addEventListener('click', () => {
+				if (navCollapsible.classList.contains('mobile-menu-open')) {
+					navCollapsible.classList.remove('mobile-menu-open');
+					menuToggle.innerHTML = '&#9776;'; // Reset hamburger icon
+				}
+			});
+		});
+
+	}
+}
+
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
 	// Render dynamic content FIRST
@@ -650,7 +680,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	renderMenuItems('breads', 'breadMenuContainer');
 	renderTestimonials('testimonialContainer');
 	renderTestimonialsCarousel();
-	setUpActiveLink()
+	setUpActiveLink();
+	setUpMenuToggle();
 	// Set initial menu state
 	if (document.getElementById("defaultOpen")) {
 		document.getElementById("defaultOpen").click();

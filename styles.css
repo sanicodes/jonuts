@@ -1092,87 +1092,212 @@ p,
 
 
 
-/* Navigation Bar */
+/* --- Navigation Bar Base Styles --- */
 .top-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
 	background-color: #1b1b1b;
 	color: white;
-	position: fixed;
-	width: 100%;
-	top: 0;
-	z-index: 100;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-	font-family: 'Lato', sans-serif;
+	/* Or your nav background */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+	padding: 0 15px;
+	/* Add some horizontal padding */
 }
 
 .nav-container {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0.8rem 2rem;
-	margin: 0 auto;
+	height: 60px;
+	width: 100%;
 }
 
-.nav-left {
-	display: flex;
-	align-items: center;
-	gap: 2rem;
-}
 
 .brand {
+	font-family: 'Amatic SC', cursive;
 	display: flex;
 	align-items: center;
-	font-size: 2rem;
-	font-weight: bold;
-	font-family: 'Amatic SC', cursive;
-	color: white;
 	text-decoration: none;
+	color: white;
+	font-weight: bold;
+	font-size: 2.5rem;
+	flex-shrink: 0;
+	margin-right: 25px;
+	margin-left: 25px;
 }
 
-.brand img.donut-icon {
-	width: 32px;
-	height: 32px;
-	object-fit: contain;
-	margin: 0 6px;
-	vertical-align: middle;
+.brand .donut-icon {
+	/* Your existing icon styles */
+	height: 30px;
+	/* Example */
+	margin: 0 5px;
+	/* Example */
+}
+
+/* --- Desktop Navigation Styles (> 768px) --- */
+.nav-collapsible {
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
 }
 
 .nav-links {
 	display: flex;
-	gap: 1rem;
+	margin-right: 20px;
 }
 
 .nav-links a {
-	color: white;
+	padding: 10px 15px;
 	text-decoration: none;
-	font-weight: 500;
-	transition: color 0.3s;
+	color: white;
+	transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-	color: #ffb6c1;
+.nav-links a:hover,
+.nav-links a.active-link {
+	color: #ff69b4;
+	font-weight: bold;
 }
 
 .nav-links a.active-link {
-	color: #ffb6c1;
-	/* Or your desired highlight color */
+	color: #ff69b4;
 	font-weight: bold;
-	/* Example style */
-	/* Add other styles like background, underline, etc. */
 }
 
-/* CTA Button (Right Side) */
 .nav-cta .contact-button {
-	background-color: #ffb6c1;
-	color: black;
-	padding: 10px 20px;
-	border-radius: 5px;
+	padding: 8px 20px;
+	border: 1px solid #ff69b4;
+	color: #ff69b4;
+	background-color: transparent;
 	text-decoration: none;
-	font-weight: bold;
-	transition: background 0.3s;
+	border-radius: 20px;
+	transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-cta {
+	margin-left: auto;
 }
 
 .nav-cta .contact-button:hover {
-	background-color: #f3c692;
+	background-color: #ff69b4;
+	color: white;
+}
+
+/* Ensure active style for button if using click-based */
+.nav-cta a.contact-button.active-link {
+	background-color: #ff69b4;
+	color: white;
+	border-color: #ff69b4;
+}
+
+
+/* Hide Hamburger on Desktop */
+.menu-toggle {
+	display: none;
+	background: none;
+	border: none;
+	font-size: 24px;
+	/* Adjust size */
+	cursor: pointer;
+	color: #333;
+	/* Color of hamburger icon */
+}
+
+/* --- Mobile Navigation Styles (<= 768px) --- */
+@media (max-width: 768px) {
+	.nav-container {
+		/* Adjust height if needed for mobile */
+		height: 55px;
+	}
+
+	/* Hide Desktop Links/Button Area */
+	.nav-collapsible {
+		display: none;
+		/* Hide initially */
+		position: absolute;
+		top: 100%;
+		/* Position below the navbar */
+		left: 0;
+		right: 0;
+		width: 100%;
+		background-color: #1b1b1b;
+		/* Background for dropdown */
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		flex-direction: column;
+		/* Stack items vertically */
+		align-items: stretch;
+		/* Stretch items full width */
+		padding: 10px 0;
+		/* Add some padding */
+	}
+
+	/* Show the collapsible menu when 'open' class is added */
+	.nav-collapsible.mobile-menu-open {
+		display: flex;
+	}
+
+	.nav-links {
+		flex-direction: column;
+		/* Stack links vertically */
+		width: 100%;
+		margin-right: 0;
+		/* Remove margin */
+		align-items: center;
+		/* Center links text */
+	}
+
+	.nav-links a {
+		padding: 12px 20px;
+		/* Adjust padding for mobile */
+		width: 100%;
+		text-align: center;
+		/* Center link text */
+		border-bottom: 1px solid #eee;
+		/* Separator lines */
+	}
+
+	.nav-links a:last-child {
+		border-bottom: none;
+		/* Remove border from last link */
+	}
+
+	.nav-cta {
+		margin-top: 10px;
+		/* Space above contact button */
+		padding: 10px 20px;
+		/* Padding around button */
+		width: 100%;
+		text-align: center;
+		/* Center the button */
+	}
+
+	.nav-cta .contact-button {
+		display: inline-block;
+		/* Ensure button respects text-align center */
+	}
+
+
+	/* Show Hamburger on Mobile */
+	.menu-toggle {
+		display: block;
+		/* Show the hamburger button */
+	}
+}
+
+/* Adjust body padding to prevent content overlap with fixed nav */
+body {
+	padding-top: 60px;
+	/* Match .nav-container height */
+}
+
+@media (max-width: 768px) {
+	body {
+		padding-top: 55px;
+		/* Match mobile .nav-container height */
+	}
 }
 
 /* Hero section with video */
@@ -1231,5 +1356,5 @@ p,
 }
 
 .hero-buttons a {
-	margin: 0 10px;
+	margin: 10px 10px;
 }
