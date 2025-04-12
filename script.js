@@ -124,7 +124,7 @@ function updateCartDisplay() {
 			const itemSubtotal = item.price * item.quantity;
 			total += itemSubtotal;
 
-			const escapedName = item.name.replace(/'/g, "\\'");
+			const escapedName = item.name.replace(/'/g, "\\'"); // Escape single quotes for JS function calls
 
 			itemElement.innerHTML = `
                 <div class="cart-item-details">
@@ -161,6 +161,64 @@ function showCartFeedback() {
 		}, 200); // Revert scale after 200ms
 	}
 	// You could add more complex feedback like a small notification
+}
+
+let checkoutModal;
+let closeModalButton;
+let modalTrackingNumberSpan;
+let modalTotalAmountSpan;
+let modalOkButton;
+
+function handleCheckout() {
+	// 1. Check if cart is empty
+	if (cart.length === 0) {
+		// Use the modal for the empty cart message too? Optional.
+		// For now, keep alert for this specific case.
+		alert("Your cart is empty. Add some delicious items before checking out!");
+		return; // Stop the function
+	}
+
+	// 2. Generate Tracking Number
+	const timestamp = Date.now();
+	const trackingNumber = `JONUTS-${timestamp.toString().slice(-6)}`;
+
+	// 3. Get Total Amount
+	const totalAmount = document.getElementById('cartTotal').textContent;
+
+	// 4. Populate Modal Content (Instead of alert)
+	if (modalTrackingNumberSpan && modalTotalAmountSpan) {
+		modalTrackingNumberSpan.textContent = trackingNumber;
+		modalTotalAmountSpan.textContent = totalAmount;
+	} else {
+		console.error("Modal content spans not found!");
+		// Fallback to alert if modal elements are missing
+		alert(`Checkout Submitted!\nTracking Number: ${trackingNumber}\nTotal: ${totalAmount}`);
+	}
+
+	// 5. Show the Modal
+	if (checkoutModal) {
+		checkoutModal.style.display = "flex"; // Use flex because CSS uses it for centering
+	}
+
+	// 6. Clear Cart Data (Still do this after showing modal)
+	cart = [];
+
+	// 7. Update Cart Display
+	updateCartDisplay();
+
+	// 8. Hide Side Cart Panel
+	const sideCartPanel = document.getElementById('sideCartPanel');
+	if (sideCartPanel) {
+		sideCartPanel.classList.remove('is-visible');
+	}
+}
+
+
+
+function closeModal() {
+	if (checkoutModal) {
+		checkoutModal.style.display = "none";
+	}
 }
 
 // --- Rendering Functions ---
@@ -205,29 +263,34 @@ function renderTestimonials(containerId) {
 	let html = '';
 	testimonialData.forEach((testimonial, index) => {
 		html += `
-              <div class="w3-col l4 m6 w3-margin-bottom animate-on-scroll">
-                  <div class="testimonial-card w3-card w3-white">
-                      <div class="w3-container">
-                          <p class="testimonial-quote">"${testimonial.quote}"</p>
-                          <p class="testimonial-author"><b>- ${testimonial.author}</b></p>
-                          <p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
-                      </div>
-                  </div>
-              </div>
-          `;
+              <div class="w3-col l4 m6 w3-margin-bottom animate-on-scroll">
+                  <div class="testimonial-card w3-card w3-white">
+                      <div class="w3-container">
+                          <p class="testimonial-quote">"${testimonial.quote}"</p>
+                          <p class="testimonial-author"><b>- ${testimonial.author}</b></p>
+                          <p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
+                      </div>
+                  </div>
+              </div>
+          `;
 	});
-	container.innerHTML = html;
-	setupScrollAnimations(); // Re-run animation setup after adding testimonials
+	// NOTE: The original code called renderTestimonials with 'testimonialContainer'
+	// but the ID in the HTML for the carousel is 'testimonialCarousel'.
+	// If testimonials should appear *outside* the carousel, 'testimonialContainer'
+	// needs to exist in the HTML. Assuming carousel only for now.
+	// If you need both, ensure the containerId passed matches an existing ID.
+	// container.innerHTML = html;
+	// setupScrollAnimations(); // Re-run animation setup after adding testimonials
 }
 
 // --- Navbar Scroll Effect ---
 // ... (keep existing function)
-const navbar = document.getElementById("myNavbar");
+const navbar = document.querySelector(".top-nav"); // Target the main nav container
 window.onscroll = function() {
 	if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-		if (navbar) navbar.classList.add("custom-navbar-scrolled");
+		if (navbar) navbar.style.backgroundColor = "rgba(0, 0, 0, 0.9)"; // Example scrolled style
 	} else {
-		if (navbar) navbar.classList.remove("custom-navbar-scrolled");
+		if (navbar) navbar.style.backgroundColor = "#1b1b1b"; // Reset to initial style
 	}
 };
 
@@ -248,10 +311,15 @@ function openMenu(evt, menuName) {
 		menuElement.style.display = "block";
 	}
 	// Ensure evt.currentTarget exists and has the target element
-	if (evt && evt.currentTarget && evt.currentTarget.querySelector('.tablink')) {
-		evt.currentTarget.querySelector('.tablink').classList.add("active");
+	// Correctly add active class to the *parent* 'a' tag's div.tablink
+	if (evt && evt.currentTarget) {
+		const tablinkDiv = evt.currentTarget.querySelector('.tablink');
+		if (tablinkDiv) {
+			tablinkDiv.classList.add("active");
+		}
 	}
 }
+
 
 // --- Game Logic ---
 // ... (keep existing game logic: variables, prepareGame, resetGame, startGame, stopGame, gameOver, createDonut, updateScore)
@@ -426,25 +494,30 @@ function createDonut() {
 
 	// Animation End Listener
 	donut.addEventListener('animationend', function handleAnimationEnd() {
-		console.log(`animationend fired. gameActive: ${gameActive}`);
+		// console.log(`animationend fired. gameActive: ${gameActive}`); // Can be noisy
 
+		// Only trigger gameOver if the game is *supposed* to be active
 		if (gameActive) {
 			console.log("GAME OVER: Donut reached bottom without being clicked!");
+			// Only remove if it still exists (might have been clicked just before end)
 			if (donut.parentNode) {
 				donut.remove();
 			}
-			gameOver();
+			gameOver(); // Trigger game over logic
 		} else {
+			// If game isn't active (stopped or already over), just remove the element
 			if (donut.parentNode) {
 				donut.remove();
 			}
 		}
 	});
 
+
 	if (gameArea) {
 		gameArea.appendChild(donut);
 	}
 }
+
 
 function updateScore() {
 	if (scoreBoard) scoreBoard.textContent = 'Score: ' + score;
@@ -464,11 +537,12 @@ function setupScrollAnimations() {
 		entries.forEach((entry, index) => {
 			if (entry.isIntersecting) {
 				entry.target.classList.add('visible');
-				if (entry.target.classList.contains('testimonial-card')) {
-					entry.target.classList.add('fade-in-up');
-					entry.target.style.transitionDelay = `${(index % 3) * 100}ms`;
+				// Add specific animation classes if needed, e.g., for testimonials
+				if (entry.target.classList.contains('testimonial-card') || entry.target.closest('.testimonial-card')) {
+					entry.target.closest('.animate-on-scroll')?.classList.add('fade-in-up'); // Apply to parent if needed
+					// entry.target.style.transitionDelay = `${(index % 3) * 100}ms`; // Delay based on grid position - might not work well with carousel
 				} else {
-					entry.target.classList.add('fade-in-up');
+					entry.target.classList.add('fade-in-up'); // Default animation
 				}
 				observer.unobserve(entry.target);
 			}
@@ -494,12 +568,14 @@ function updateCartItemCount() {
 	// Update count and visibility
 	cartItemCountElement.textContent = itemCount;
 
+	// Use a class to hide/show instead of direct style manipulation
 	if (itemCount > 0) {
 		cartItemCountElement.classList.remove('hidden');
 	} else {
 		cartItemCountElement.classList.add('hidden');
 	}
 }
+
 
 function toggleCartPanel() {
 	const sideCartPanel = document.getElementById('sideCartPanel');
@@ -529,13 +605,16 @@ function renderTestimonialsCarousel() {
 	testimonialData.forEach((testimonial, index) => {
 		const slide = document.createElement('div');
 		slide.classList.add('carousel-slide');
+		// Wrap testimonial card in the animate-on-scroll div for carousel
 		slide.innerHTML = `
-            <div class="testimonial-card">
-                <p class="testimonial-quote">"${testimonial.quote}"</p>
-                <div>
-                    <p class="testimonial-author"><b>- ${testimonial.author}</b></p>
-                    <p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
-                </div>
+             <div class="animate-on-scroll">
+                 <div class="testimonial-card">
+                     <p class="testimonial-quote">"${testimonial.quote}"</p>
+                     <div>
+                         <p class="testimonial-author"><b>- ${testimonial.author}</b></p>
+                         <p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
+                     </div>
+                 </div>
             </div>
         `;
 		carouselContainer.appendChild(slide);
@@ -553,7 +632,11 @@ function renderTestimonialsCarousel() {
 
 	// Start auto-play
 	startAutoPlay();
+
+	// Re-setup scroll animations AFTER adding carousel content
+	setupScrollAnimations();
 }
+
 
 function updateCarouselPosition() {
 	const carousel = document.getElementById('testimonialCarousel');
@@ -570,6 +653,7 @@ function updateCarouselPosition() {
 
 function moveCarousel(direction) {
 	const totalSlides = testimonialData.length;
+	if (totalSlides === 0) return; // Prevent errors if no testimonials
 
 	// Calculate next slide position
 	currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
@@ -588,23 +672,23 @@ function goToSlide(slideIndex) {
 }
 
 function startAutoPlay() {
-	// Clear any existing interval
-	if (autoPlayInterval) clearInterval(autoPlayInterval);
-
-	// Set new interval
-	autoPlayInterval = setInterval(() => {
-		moveCarousel(1); // Move forward one slide
-	}, slideInterval);
+	stopAutoPlay(); // Clear any existing interval first
+	if (testimonialData.length > 1) { // Only autoplay if more than one slide
+		autoPlayInterval = setInterval(() => {
+			moveCarousel(1); // Move forward one slide
+		}, slideInterval);
+	}
 }
 
 function resetAutoPlay() {
 	// Reset the auto-play timer
-	clearInterval(autoPlayInterval);
+	stopAutoPlay();
 	startAutoPlay();
 }
 
 function stopAutoPlay() {
 	clearInterval(autoPlayInterval);
+	autoPlayInterval = null; // Clear the interval ID
 }
 
 function setUpActiveLink() {
@@ -672,32 +756,83 @@ function setUpMenuToggle() {
 	}
 }
 
+
+function setupModals() {
+	// *** NEW: Assign Modal Elements ***
+	checkoutModal = document.getElementById("checkoutModal");
+	closeModalButton = document.getElementById("closeModalButton");
+	modalTrackingNumberSpan = document.getElementById("modalTrackingNumber");
+	modalTotalAmountSpan = document.getElementById("modalTotalAmount");
+	modalOkButton = document.getElementById("modalOkButton"); // Get the OK button
+
+	const checkoutButton = document.getElementById('checkoutButton');
+
+	if (closeSideCartButton && sideCartPanel) {
+		closeSideCartButton.onclick = function() {
+			sideCartPanel.classList.remove('is-visible');
+		}
+	} else {
+		console.error("Could not find side cart panel or its close button");
+	}
+
+	if (checkoutButton) {
+		checkoutButton.addEventListener('click', handleCheckout);
+	} else {
+		console.error("Checkout button not found!");
+	}
+
+	const cartFloatingButton = document.getElementById('cartFloatingButton');
+	if (cartFloatingButton) {
+		cartFloatingButton.addEventListener('click', toggleCartPanel);
+	}
+
+	// *** NEW: Modal Close Event Listeners ***
+	if (closeModalButton) {
+		closeModalButton.onclick = closeModal;
+	}
+	if (modalOkButton) { // Make OK button close the modal too
+		modalOkButton.onclick = closeModal;
+	}
+	// Close modal if user clicks outside the modal content
+	window.onclick = function(event) {
+		if (event.target == checkoutModal) {
+			closeModal();
+		}
+	}
+
+}
+
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
 	// Render dynamic content FIRST
 	renderMenuItems('donuts', 'donutMenuContainer');
 	renderMenuItems('drinks', 'drinkMenuContainer');
 	renderMenuItems('breads', 'breadMenuContainer');
-	renderTestimonials('testimonialContainer');
-	renderTestimonialsCarousel();
+	// renderTestimonials('testimonialContainer'); // Only if separate non-carousel testimonials exist
+	renderTestimonialsCarousel(); // Renders carousel AND sets up animations for it
 	setUpActiveLink();
 	setUpMenuToggle();
+	setupModals();
 	// Set initial menu state
 	if (document.getElementById("defaultOpen")) {
-		document.getElementById("defaultOpen").click();
+		// Find the parent 'a' tag and simulate click on it
+		document.getElementById("defaultOpen").closest('a').click();
 	} else {
+		// Fallback if defaultOpen doesn't exist
 		const firstMenu = document.querySelector('.menu-content');
 		if (firstMenu) firstMenu.style.display = 'block';
+		const firstTabLink = document.querySelector('.tablink');
+		if (firstTabLink) firstTabLink.classList.add('active');
 	}
 
 	// Set initial game button state
-	resetGame();
-	if (startGameButton) startGameButton.disabled = false;
-	if (stopGameButton) stopGameButton.disabled = true;
+	resetGame(); // Call resetGame first
+	// Don't explicitly disable/enable here, resetGame handles initial state
 
 	// --- Side Cart Panel Setup ---
 	const sideCartPanel = document.getElementById('sideCartPanel');
 	const closeSideCartButton = document.getElementById('closeSideCartButton');
+	const checkoutButton = document.getElementById('checkoutButton'); // Get checkout button
 
 	if (closeSideCartButton && sideCartPanel) {
 		closeSideCartButton.onclick = function() {
@@ -706,11 +841,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		console.error("Could not find side cart panel or its close button");
 	}
+
+	// Add event listener for the checkout button
+	if (checkoutButton) {
+		checkoutButton.addEventListener('click', handleCheckout);
+	} else {
+		console.error("Checkout button not found!");
+	}
+
+
 	const cartFloatingButton = document.getElementById('cartFloatingButton');
 	if (cartFloatingButton) {
 		cartFloatingButton.addEventListener('click', toggleCartPanel);
 	}
 
-	updateCartDisplay();
-	setupScrollAnimations();
+	updateCartDisplay(); // Initial cart display update
+	// setupScrollAnimations(); // Moved into renderTestimonialsCarousel to ensure elements exist
 });

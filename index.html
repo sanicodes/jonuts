@@ -159,22 +159,40 @@
     </form>
   </div>
 </footer>
-  <div id="sideCartPanel" class="side-cart-panel">
-      <header class="w3-container w3-pink">
-          <span id="closeSideCartButton" class="w3-button w3-display-topright w3-xlarge" style="padding: 8px 16px !important;">&times;</span>
-          <h2 style="font-family: 'Amatic SC', cursive; font-weight:700; margin: 10px 0;">Your Order</h2>
-      </header>
-      <div class="cart-items-container" id="cartItemsContainer">
-          <p style="padding: 15px;">Your cart is currently empty.</p>
-      </div>
-      <footer class="w3-container w3-light-grey w3-padding">
-          <h4>Total: <span id="cartTotal" style="font-weight:bold;">₱0.00</span></h4>
-          <p class="w3-small"><i>Note: This is just a summary. Please pay at the counter.</i></p>
-      </footer>
-  </div><script src="script.js"></script>
+<div id="sideCartPanel" class="side-cart-panel">
+        <header class="w3-container w3-pink">
+            <span id="closeSideCartButton" class="w3-button w3-display-topright w3-xlarge" style="padding: 8px 16px !important;">&times;</span>
+            <h2 style="font-family: 'Amatic SC', cursive; font-weight:700; margin: 10px 0;">Your Order</h2>
+        </header>
+        <div class="cart-items-container" id="cartItemsContainer">
+            <p style="padding: 15px;">Your cart is currently empty.</p>
+        </div>
+        <footer class="w3-container w3-light-grey w3-padding">
+            <h4>Total: <span id="cartTotal" style="font-weight:bold;">₱0.00</span></h4>
+            <p class="w3-small"><i>Note: This is just a summary. Please pay at the counter.</i></p>
+            <button id="checkoutButton" class="w3-button w3-green w3-round-large w3-margin-top" style="width:100%;">Proceed to Checkout</button>
+        </footer>
+    </div>
+<script src="script.js"></script>
 <div id="cartFloatingButton" class="cart-floating-button">
 <div class="cart-icon"><i class="fas fa-shopping-cart"></i></div>
     <div id="cartItemCount" class="cart-item-count">0</div>
 </div>
+<div id="checkoutModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" id="closeModalButton">&times;</span>
+    <h2 style="font-family: 'Amatic SC', cursive; font-weight:700; color: #4CAF50; margin-bottom: 15px;">Checkout Submitted!</h2>
+    <p>Thank you for your order at Jonuts!</p>
+    <p>Please proceed to the counter and provide your Tracking Number to complete your payment.</p>
+    <div style="margin-top: 20px; padding: 15px; background-color: #f0f0f0; border-radius: 5px;">
+        <p style="margin-bottom: 5px;"><strong>Tracking Number:</strong> <span id="modalTrackingNumber" style="font-weight: bold; color: #d14580;"></span></p>
+        <p style="margin-bottom: 0;"><strong>Total Amount:</strong> <span id="modalTotalAmount" style="font-weight: bold;"></span></p>
+    </div>
+    <button id="modalOkButton" class="w3-button w3-pink w3-round-large w3-margin-top">OK</button>
+  </div>
+</div>
+
+</body>
+</html>
 </body>
 </html>
