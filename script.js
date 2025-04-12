@@ -34,6 +34,52 @@ const testimonialData = [
 	{ quote: "Great variety and always fresh. Love stopping by after work.", author: "Carlo M.", rating: 4 }
 ];
 
+
+const aboutUsData = [
+	{
+		name: "Johanne Amber Manatad", // Replace with actual name
+		role: "Founder & Head Baker", // Replace with actual role
+		image: "images/team/1.jpg", // IMPORTANT: Replace with the correct path to the member's image
+		bio: "Passionate about crafting the perfect donut and bringing smiles to faces."
+	},
+	{
+		name: "Princess Sandra Cuasito", // Replace with actual name
+		role: "Operations & Logistics", // Replace with actual role
+		image: "images/team/2.jpg", // IMPORTANT: Replace with the correct path to the member's image
+		bio: "Ensuring everything runs smoothly from baking to your first bite."
+	},
+	{
+		name: "Jonamarie Pepito", // Replace with actual name
+		role: "Marketing & Community", // Replace with actual role
+		image: "images/team/3.jpg", // IMPORTANT: Replace with the correct path to the member's image
+		bio: "Spreading the love for Jonuts and connecting with our amazing customers."
+	},
+	{
+		name: "Sergio Gabrielle Cabugoy", // Replace with actual name
+		role: "Marketing & Community", // Replace with actual role
+		image: "images/team/4.jpg", // IMPORTANT: Replace with the correct path to the member's image
+		bio: "Spreading the love for Jonuts and connecting with our amazing customers."
+	},
+	{
+		name: "Jana Niña Villanueva", // Replace with actual name
+		role: "Marketing & Community", // Replace with actual role
+		image: "images/team/5.jpg", // IMPORTANT: Replace with the correct path to the member's image
+		bio: "Spreading the love for Jonuts and connecting with our amazing customers."
+	},
+	{
+		name: "Lhouizze Ghien Mabatid", // Replace with actual name
+		role: "Marketing & Community", // Replace with actual role
+		image: "images/team/6.jpg", // IMPORTANT: Replace with the correct path to the member's image
+		bio: "Spreading the love for Jonuts and connecting with our amazing customers."
+	},
+	{
+		name: "Bryle Hinaut", // Replace with actual name
+		role: "Marketing & Community", // Replace with actual role
+		image: "images/team/7.jpg", // IMPORTANT: Replace with the correct path to the member's image
+		bio: "Spreading the love for Jonuts and connecting with our amazing customers."
+	},
+];
+
 // --- Helper Functions ---
 function formatPrice(price) {
 	return `₱${price.toFixed(2)}`;
@@ -802,12 +848,42 @@ function setupModals() {
 
 }
 
+function renderAboutUs(containerId) {
+	const container = document.getElementById(containerId);
+	if (!container) {
+		console.error("About Us container not found:", containerId);
+		return;
+	}
+
+	let html = '';
+	aboutUsData.forEach(member => {
+		// Each card gets the animate-on-scroll class
+		html += `
+            <div class="team-member-card animate-on-scroll">
+                <div class="team-member-image">
+                    <img src="${member.image}" alt="Photo of ${member.name}">
+                </div>
+                <div class="team-member-info">
+                    <h3 class="team-member-name">${member.name}</h3>
+                    <p class="team-member-role">${member.role}</p>
+                    <p class="team-member-bio">${member.bio}</p>
+                </div>
+            </div>
+        `;
+	});
+
+	container.innerHTML = html;
+	// Optional: If you want to re-run animations specifically after adding these:
+	// setupScrollAnimations(); // Might be better to call once after all rendering in DOMContentLoaded
+}
+
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
 	// Render dynamic content FIRST
 	renderMenuItems('donuts', 'donutMenuContainer');
 	renderMenuItems('drinks', 'drinkMenuContainer');
 	renderMenuItems('breads', 'breadMenuContainer');
+	renderAboutUs('aboutUsContainer'); // <-- CALL THE NEW FUNCTION HERE
 	// renderTestimonials('testimonialContainer'); // Only if separate non-carousel testimonials exist
 	renderTestimonialsCarousel(); // Renders carousel AND sets up animations for it
 	setUpActiveLink();
