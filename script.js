@@ -607,6 +607,41 @@ function stopAutoPlay() {
 	clearInterval(autoPlayInterval);
 }
 
+function setUpActiveLink() {
+	// Select all links within the main navigation area
+	const navLinks = document.querySelectorAll('.nav-links a');
+	// Optional: Select the 'Contact Us' button if it should also participate
+	const contactButton = document.querySelector('.nav-cta a.contact-button');
+
+	// Combine all links/buttons that should have the active state behavior
+	const allNavItems = [...navLinks]; // Create an array from NodeList
+	if (contactButton) {
+		allNavItems.push(contactButton); // Add the contact button to the array
+	}
+
+	// Function to remove active class from ALL navigation items
+	function removeActiveClasses() {
+		allNavItems.forEach(item => {
+			item.classList.remove('active-link'); // Remove the class from every item
+		});
+	}
+
+	// Add click listener to each navigation item
+	allNavItems.forEach(item => {
+		item.addEventListener('click', function(event) {
+			// WHEN A LINK IS CLICKED:
+
+			// 1. FIRST, remove 'active-link' from ALL items
+			removeActiveClasses();
+
+			// 2. THEN, add 'active-link' ONLY to the item that was just clicked ('this')
+			this.classList.add('active-link');
+
+			// The default link behavior (scrolling to the section) still happens automatically
+		});
+	});
+}
+
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
 	// Render dynamic content FIRST
@@ -615,6 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	renderMenuItems('breads', 'breadMenuContainer');
 	renderTestimonials('testimonialContainer');
 	renderTestimonialsCarousel();
+	setUpActiveLink()
 	// Set initial menu state
 	if (document.getElementById("defaultOpen")) {
 		document.getElementById("defaultOpen").click();

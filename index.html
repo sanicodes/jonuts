@@ -13,29 +13,53 @@
 </head>
 <body>
 
-<div class="w3-top w3-hide-small">
-    <div class="w3-bar w3-xlarge w3-black custom-navbar" id="myNavbar">
-        <a href="#home" class="w3-bar-item w3-button">HOME</a>
-        <a href="#menu" class="w3-bar-item w3-button">MENU</a>
-        <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
-        <a href="#testimonials" class="w3-bar-item w3-button">TESTIMONIALS</a>
-        <a href="#game" class="w3-bar-item w3-button" onclick="prepareGame()">CATCH THE DONUTS</a>
-        <a href="#contact" class="w3-bar-item w3-button">CONTACT</a>
+
+
+<!-- Top Navigation Bar -->
+<div class="top-nav">
+  <div class="nav-container">
+    <!-- Brand + Nav Links on the Left -->
+    <div class="nav-left">
+      <a href="#home" class="brand">
+        <span>J</span>
+        <img src="images/donut2.png" alt="Donut Logo" class="donut-icon">
+        <span>NUTS</span>
+      </a>
+      <div class="nav-links">
+        <a href="#menu">MENU</a>
+        <a href="#about">ABOUT</a>
+        <a href="#testimonials">TESTIMONIALS</a>
+        <a href="#game">CATCH THE DONUTS</a>
+      </div>
     </div>
+
+    <!-- Contact Button on the Right -->
+    <div class="nav-cta">
+      <a href="#contact" class="contact-button">CONTACT US</a>
+    </div>
+  </div>
 </div>
 
-<header class="bgimg w3-display-container" id="home">
-    <video autoplay loop muted playsinline>
-        <source src="videos/assorted-colorful-glazed-donuts.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="header-content">
-        <span class="main-title"><b>JONUTS</b></span>
-        <p><a href="#menu" class="w3-button w3-white w3-xxlarge w3-text-pink w3-padding-large w3-margin-top w3-round-large">Let me see the menu</a></p>
+
+<!-- Hero Section -->
+<header class="hero-section" id="home">
+  <video autoplay loop muted playsinline class="hero-video">
+    <source src="videos/donuts3.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Text Content -->
+  <div class="hero-content">
+    <h1 class="hero-title">TIME TO DISCOVER<br><span style="color: #ffb6c1;">DELICIOUS DONUTS</span></h1>
+    <p class="hero-subtitle">We craft every donut with love and flavor. Come taste the difference.</p>
+    <div class="hero-buttons">
+      <a href="#menu" class="w3-button w3-pink w3-large w3-round-large">CHECK THE DONUTS</a>
+      <a href="#about" class="w3-button w3-transparent w3-border w3-border-white w3-large w3-round-large w3-text-white">LEARN MORE</a>
     </div>
-    <div class="tag-open">
-         <span class="w3-tag w3-pink w3-xlarge w3-round">Open 24/7</span>
-    </div>
+  </div>
 </header>
 
 <div class="w3-container w3-padding-64 section-container" id="menu">
