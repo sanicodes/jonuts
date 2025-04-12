@@ -88,10 +88,22 @@
 </div>
 
 <div class="w3-container w3-padding-64 section-container testimonials-section" id="testimonials">
-    <div class="w3-content">
+    <div class="carousel-container">
         <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">WHAT PEOPLE SAY</h1>
-        <div id="testimonialContainer" class="w3-row-padding">
+        <!-- Carousel container -->
+        <div class="testimonial-carousel-container animate-on-scroll">
+            <!-- Testimonials will be inserted here by JavaScript -->
+            <div id="testimonialCarousel" class="testimonial-carousel">
+                <!-- Content added by JS -->
             </div>
+            <!-- Navigation buttons -->
+            <button class="carousel-control prev" onclick="moveCarousel(-1)">❮</button>
+            <button class="carousel-control next" onclick="moveCarousel(1)">❯</button>
+            <!-- Dots/indicators -->
+            <div class="carousel-indicators" id="carouselIndicators">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
     </div>
 </div>
 

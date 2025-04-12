@@ -493,6 +493,104 @@ function toggleCartPanel() {
 }
 
 
+// --- Carousel variables ---
+let currentSlide = 0;
+let autoPlayInterval;
+const slideInterval = 5000; // Time between auto-slides (milliseconds)
+
+// --- Testimonial Carousel functions ---
+function renderTestimonialsCarousel() {
+	const carouselContainer = document.getElementById('testimonialCarousel');
+	const indicatorsContainer = document.getElementById('carouselIndicators');
+
+	if (!carouselContainer || !indicatorsContainer) return;
+
+	// Clear previous content
+	carouselContainer.innerHTML = '';
+	indicatorsContainer.innerHTML = '';
+
+	// Create slides
+	testimonialData.forEach((testimonial, index) => {
+		const slide = document.createElement('div');
+		slide.classList.add('carousel-slide');
+		slide.innerHTML = `
+            <div class="testimonial-card">
+                <p class="testimonial-quote">"${testimonial.quote}"</p>
+                <div>
+                    <p class="testimonial-author"><b>- ${testimonial.author}</b></p>
+                    <p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
+                </div>
+            </div>
+        `;
+		carouselContainer.appendChild(slide);
+
+		// Create indicator dot
+		const dot = document.createElement('span');
+		dot.classList.add('carousel-dot');
+		if (index === 0) dot.classList.add('active');
+		dot.onclick = function() { goToSlide(index); };
+		indicatorsContainer.appendChild(dot);
+	});
+
+	// Set initial position
+	updateCarouselPosition();
+
+	// Start auto-play
+	startAutoPlay();
+}
+
+function updateCarouselPosition() {
+	const carousel = document.getElementById('testimonialCarousel');
+	if (!carousel) return;
+
+	carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+	// Update active dot indicator
+	const dots = document.querySelectorAll('.carousel-dot');
+	dots.forEach((dot, index) => {
+		dot.classList.toggle('active', index === currentSlide);
+	});
+}
+
+function moveCarousel(direction) {
+	const totalSlides = testimonialData.length;
+
+	// Calculate next slide position
+	currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+
+	// Update carousel position
+	updateCarouselPosition();
+
+	// Reset auto-play timer when manually navigated
+	resetAutoPlay();
+}
+
+function goToSlide(slideIndex) {
+	currentSlide = slideIndex;
+	updateCarouselPosition();
+	resetAutoPlay();
+}
+
+function startAutoPlay() {
+	// Clear any existing interval
+	if (autoPlayInterval) clearInterval(autoPlayInterval);
+
+	// Set new interval
+	autoPlayInterval = setInterval(() => {
+		moveCarousel(1); // Move forward one slide
+	}, slideInterval);
+}
+
+function resetAutoPlay() {
+	// Reset the auto-play timer
+	clearInterval(autoPlayInterval);
+	startAutoPlay();
+}
+
+function stopAutoPlay() {
+	clearInterval(autoPlayInterval);
+}
+
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
 	// Render dynamic content FIRST
@@ -500,6 +598,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	renderMenuItems('drinks', 'drinkMenuContainer');
 	renderMenuItems('breads', 'breadMenuContainer');
 	renderTestimonials('testimonialContainer');
+
+	renderTestimonialsCarousel();
 
 	// Set initial menu state
 	if (document.getElementById("defaultOpen")) {
@@ -525,22 +625,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		console.error("Could not find side cart panel or its close button");
 	}
-	// Add this inside your DOMContentLoaded event listener
 	const cartFloatingButton = document.getElementById('cartFloatingButton');
 	if (cartFloatingButton) {
 		cartFloatingButton.addEventListener('click', toggleCartPanel);
 	}
-	// REMOVE old modal listeners
-	// const cartModal = document.getElementById('cartModal');
-	// const cartToggleButton = document.getElementById('cartToggleButton');
-	// const closeCartButton = document.getElementById('closeCartButton');
-	// if (cartToggleButton) { /* ... remove ... */ }
-	// if (closeCartButton) { /* ... remove ... */ }
-	// window.onclick = function(event) { /* ... remove ... */ }
 
-	// Initialize cart display (empty state in the hidden panel)
 	updateCartDisplay();
-
-	// Setup scroll animations (already called by renderTestimonials)
-	// setupScrollAnimations();
+	setupScrollAnimations();
 });
