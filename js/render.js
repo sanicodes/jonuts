@@ -1,13 +1,15 @@
-import { menuData, testimonialData, aboutUsData } from './data.js';
-import { formatPrice, generateStars } from './utils.js';
-import { addToCart } from './cart.js'; // Need this for menu item buttons
-import { goToSlide } from './carousel.js'; // Need this for carousel dots
-import { setupScrollAnimations } from './ui.js'; // To re-run after rendering carousel
+import { menuData, testimonialData, aboutUsData } from "./data.js";
+import { formatPrice, generateStars } from "./utils.js";
+import { addToCart } from "./cart.js"; // Need this for menu item buttons
+import { goToSlide } from "./carousel.js"; // Need this for carousel dots
+import { setupScrollAnimations } from "./ui.js"; // To re-run after rendering carousel
 
 export function renderMenuItems(category, containerId) {
   const container = document.getElementById(containerId);
   if (!container || !menuData[category]) {
-    console.error(`Menu container #${containerId} or category ${category} not found.`);
+    console.error(
+      `Menu container #${containerId} or category ${category} not found.`
+    );
     return;
   }
 
@@ -16,26 +18,32 @@ export function renderMenuItems(category, containerId) {
     const tagsHtml =
       item.tags && item.tags.length > 0
         ? item.tags
-          .map((tag) => `<span class="menu-item-tag">${tag}</span>`)
-          .join(" ")
+            .map((tag) => `<span class="menu-item-tag">${tag}</span>`)
+            .join(" ")
         : "";
     // Add data attributes for name and price
     html += `
             <div class="menu-item-card animate-on-scroll">
                 <div class="menu-item-image">
-                    <img src="${item.image}" alt="${item.name}" class="menu-item-img">
+                    <img src="${item.image}" alt="${
+      item.name
+    }" class="menu-item-img">
                 </div>
                 <div class="menu-item-content">
                     <div class="menu-item-header">
                         <h3 class="menu-item-title">${item.name}</h3>
-                        <span class="menu-item-price">${formatPrice(item.price)}</span>
+                        <span class="menu-item-price">${formatPrice(
+                          item.price
+                        )}</span>
                     </div>
                     <p class="menu-item-description">${item.description}</p>
                     <div class="menu-item-tags">
                         ${tagsHtml}
                     </div>
                     <div class="menu-item-actions">
-                        <button class="menu-item-button" data-name="${item.name}" data-price="${item.price}">Add to Cart</button>
+                        <button class="menu-item-button" data-name="${
+                          item.name
+                        }" data-price="${item.price}">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -51,9 +59,9 @@ function addMenuItemListeners(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  container.querySelectorAll('.menu-item-button').forEach(button => {
+  container.querySelectorAll(".menu-item-button").forEach((button) => {
     // Important: Use a fresh query inside the listener or store data
-    button.addEventListener('click', (event) => {
+    button.addEventListener("click", (event) => {
       const targetButton = event.currentTarget; // Use currentTarget
       const name = targetButton.dataset.name;
       const price = parseFloat(targetButton.dataset.price);
@@ -65,7 +73,6 @@ function addMenuItemListeners(containerId) {
     });
   });
 }
-
 
 export function renderTestimonialsCarousel(carouselId, indicatorsId) {
   const carouselContainer = document.getElementById(carouselId);
@@ -89,8 +96,12 @@ export function renderTestimonialsCarousel(carouselId, indicatorsId) {
              <div class="testimonial-card">
                  <p class="testimonial-quote">"${testimonial.quote}"</p>
                  <div>
-                     <p class="testimonial-author"><b>- ${testimonial.author}</b></p>
-                     <p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
+                     <p class="testimonial-author"><b>- ${
+                       testimonial.author
+                     }</b></p>
+                     <p class="testimonial-rating">${generateStars(
+                       testimonial.rating
+                     )}</p>
                  </div>
              </div>
            </div>
@@ -106,8 +117,8 @@ export function renderTestimonialsCarousel(carouselId, indicatorsId) {
   });
 
   // Add listeners to dots AFTER they are in the DOM
-  indicatorsContainer.querySelectorAll('.carousel-dot').forEach(dot => {
-    dot.addEventListener('click', (event) => {
+  indicatorsContainer.querySelectorAll(".carousel-dot").forEach((dot) => {
+    dot.addEventListener("click", (event) => {
       const index = parseInt(event.target.dataset.index, 10);
       goToSlide(index);
     });
@@ -115,12 +126,13 @@ export function renderTestimonialsCarousel(carouselId, indicatorsId) {
 
   // Re-setup scroll animations for the newly added elements
   // Ensure setupScrollAnimations is imported and defined correctly in ui.js
-  if (typeof setupScrollAnimations === 'function') {
+  if (typeof setupScrollAnimations === "function") {
     setupScrollAnimations();
   } else {
-    console.warn("setupScrollAnimations function not available for carousel rendering.");
+    console.warn(
+      "setupScrollAnimations function not available for carousel rendering."
+    );
   }
-
 }
 
 export function renderAboutUs(containerId) {

@@ -1,15 +1,26 @@
-import { getCartLength, clearCart, updateCartDisplay, getCartTotalFormatted } from './cart.js';
+import {
+  getCartLength,
+  clearCart,
+  updateCartDisplay,
+  getCartTotalFormatted,
+} from "./cart.js";
 
 // --- Navbar Scroll Effect ---
 export function setupNavbarScroll() {
   const navbar = document.querySelector(".top-nav");
   if (!navbar) return;
 
-  const initialBg = navbar.style.backgroundColor || getComputedStyle(navbar).backgroundColor || "#1b1b1b"; // Store initial color
+  const initialBg =
+    navbar.style.backgroundColor ||
+    getComputedStyle(navbar).backgroundColor ||
+    "#1b1b1b"; // Store initial color
   const scrolledBg = "rgba(0, 0, 0, 0.9)";
 
-  window.addEventListener('scroll', () => {
-    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+  window.addEventListener("scroll", () => {
+    if (
+      document.body.scrollTop > 50 ||
+      document.documentElement.scrollTop > 50
+    ) {
       navbar.style.backgroundColor = scrolledBg;
     } else {
       navbar.style.backgroundColor = initialBg;
@@ -17,53 +28,88 @@ export function setupNavbarScroll() {
   });
 }
 
-
 // --- Menu Tabs ---
 export function setupMenuTabs() {
-  const tabLinks = document.querySelectorAll(".tab-container .tab-link-wrapper"); // Target the wrapper
+  // Select the clickable <a> tags within the menu-tabs container
+  const tabAnchors = document.querySelectorAll(".menu-tabs > a"); // Direct children <a> tags
+  // Select all the content divs
+  const menuContents = document.querySelectorAll(".menu-content");
+  // Select all the inner div.tablink elements (for managing active class)
+  const tabLinkDivs = document.querySelectorAll(".menu-tabs .tablink");
 
-  tabLinks.forEach(wrapper => {
-    wrapper.addEventListener('click', (event) => {
-      // Don't prevent default if it's a link, let it scroll if needed
-      // event.preventDefault();
+  if (tabAnchors.length === 0) {
+    console.warn(
+      "No menu tab anchors found as direct children of '.menu-tabs'."
+    );
+    return;
+  }
 
-      const menuName = wrapper.dataset.menu; // Expecting <div class="tab-link-wrapper" data-menu="donutMenuContainer">
-      if (!menuName) return;
+  tabAnchors.forEach((anchor) => {
+    anchor.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent the default <a> tag behavior
+      const clickedAnchor = event.currentTarget; // The <a> tag that was clicked
+      const menuName = clickedAnchor.dataset.menu; // Get target ID from <a>'s data-menu
 
-      // Hide all menu content sections
-      document.querySelectorAll(".menu-content").forEach(content => {
-        content.style.display = "none";
-      });
-
-      // Remove active class from all tab links (the inner div)
-      document.querySelectorAll(".tab-container .tablink").forEach(link => {
-        link.classList.remove("active");
-      });
-
-      // Show the target menu content
-      const menuElement = document.getElementById(menuName);
-      if (menuElement) {
-        menuElement.style.display = "block";
+      if (!menuName) {
+        console.error(
+          "Clicked tab anchor is missing data-menu attribute:",
+          clickedAnchor
+        );
+        return;
       }
 
-      // Add active class to the clicked tab's inner div
-      const tablinkDiv = wrapper.querySelector(".tablink");
-      if (tablinkDiv) {
-        tablinkDiv.classList.add("active");
+      // 1. Hide all menu content sections
+      menuContents.forEach((content) => {
+        content.style.display = "none"; // Using direct style as per your HTML example
+      });
+
+      // 2. Remove 'active' class from all inner tablink DIVs
+      tabLinkDivs.forEach((linkDiv) => {
+        linkDiv.classList.remove("active");
+      });
+
+      // 3. Show the target menu content
+      const menuElementToShow = document.getElementById(menuName);
+      if (menuElementToShow) {
+        menuElementToShow.style.display = "block"; // Show the content
+      } else {
+        console.error(`Menu content with ID '${menuName}' not found.`);
+      }
+
+      // 4. Add 'active' class to the inner tablink DIV of the clicked anchor
+      const innerTabLinkDiv = clickedAnchor.querySelector(".tablink");
+      if (innerTabLinkDiv) {
+        innerTabLinkDiv.classList.add("active");
+      } else {
+        console.error(
+          "Could not find .tablink div inside clicked anchor:",
+          clickedAnchor
+        );
       }
     });
   });
 
-  // Activate the default tab initially
-  const defaultOpenWrapper = document.getElementById("defaultOpen")?.closest('.tab-link-wrapper');
-  if (defaultOpenWrapper) {
-    defaultOpenWrapper.click(); // Simulate a click to open it
-  } else {
-    // Fallback: Open the first tab if defaultOpen isn't found
-    const firstTabWrapper = document.querySelector(".tab-container .tab-link-wrapper");
-    if (firstTabWrapper) {
-      firstTabWrapper.click();
+  // --- Activate the default tab on page load ---
+  const defaultOpenDiv = document.getElementById("defaultOpen"); // This ID is on the inner div
+  if (defaultOpenDiv) {
+    // Find the parent <a> tag of the default div and click it
+    const defaultAnchor = defaultOpenDiv.closest("a");
+    if (defaultAnchor) {
+      defaultAnchor.click(); // Simulate click on the parent anchor
+    } else {
+      console.error("Could not find parent anchor for defaultOpen element.");
+      // Fallback if parent anchor isn't found but tabs exist
+      if (tabAnchors.length > 0) tabAnchors[0].click();
     }
+  } else if (tabAnchors.length > 0) {
+    // Fallback: If no #defaultOpen, click the first tab's anchor
+    console.warn("No defaultOpen element found, activating the first tab.");
+    tabAnchors[0].click();
+  } else {
+    // If no tabs exist at all, hide all content initially
+    menuContents.forEach((content) => {
+      content.style.display = "none";
+    });
   }
 }
 
@@ -101,7 +147,6 @@ export function setupScrollAnimations() {
   elementsToAnimate.forEach((el) => observer.observe(el));
 }
 
-
 // --- Active Navigation Link Highlighting ---
 export function setupActiveLinkHighlighting() {
   const navLinks = document.querySelectorAll(".nav-links a");
@@ -109,13 +154,13 @@ export function setupActiveLinkHighlighting() {
   const allNavItems = [...navLinks, ...(contactButton ? [contactButton] : [])]; // Combine NodeLists safely
 
   function removeActiveClasses() {
-    allNavItems.forEach(item => item.classList.remove("active-link"));
+    allNavItems.forEach((item) => item.classList.remove("active-link"));
   }
 
-  allNavItems.forEach(item => {
-    item.addEventListener('click', function() {
+  allNavItems.forEach((item) => {
+    item.addEventListener("click", function () {
       removeActiveClasses(); // Remove from all first
-      this.classList.add('active-link'); // Add to the clicked one
+      this.classList.add("active-link"); // Add to the clicked one
       // NOTE: The browser's default behavior will handle the scrolling to the href="#section"
     });
   });
@@ -131,7 +176,7 @@ export function setupMobileMenu() {
 
   if (!menuToggle || !navCollapsible) return;
 
-  menuToggle.addEventListener('click', () => {
+  menuToggle.addEventListener("click", () => {
     navCollapsible.classList.toggle("mobile-menu-open");
 
     // Change icon: Hamburger or X
@@ -143,8 +188,8 @@ export function setupMobileMenu() {
   });
 
   // Close menu when a link *inside* it is clicked
-  navCollapsible.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
+  navCollapsible.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
       if (navCollapsible.classList.contains("mobile-menu-open")) {
         navCollapsible.classList.remove("mobile-menu-open");
         menuToggle.innerHTML = "&#9776;"; // Reset hamburger icon
@@ -152,7 +197,6 @@ export function setupMobileMenu() {
     });
   });
 }
-
 
 // --- Modal Logic ---
 let checkoutModal;
@@ -173,14 +217,17 @@ function handleCheckout() {
   const trackingNumber = `JONUTS-${timestamp.toString().slice(-6)}`;
   const totalAmount = getCartTotalFormatted(); // Use function from cart.js
 
-  if (modalTrackingNumberSpan) modalTrackingNumberSpan.textContent = trackingNumber;
+  if (modalTrackingNumberSpan)
+    modalTrackingNumberSpan.textContent = trackingNumber;
   if (modalTotalAmountSpan) modalTotalAmountSpan.textContent = totalAmount;
 
   if (checkoutModal) {
     checkoutModal.style.display = "flex"; // Or "block", depending on CSS
   } else {
     // Fallback if modal elements aren't found
-    alert(`Checkout Submitted!\nTracking Number: ${trackingNumber}\nTotal: ${totalAmount}`);
+    alert(
+      `Checkout Submitted!\nTracking Number: ${trackingNumber}\nTotal: ${totalAmount}`
+    );
   }
 
   clearCart(); // Clear cart data using the function from cart.js
@@ -212,35 +259,38 @@ export function setupModals() {
 
   // Checkout button in the side cart panel
   if (checkoutButton) {
-    checkoutButton.addEventListener('click', handleCheckout);
+    checkoutButton.addEventListener("click", handleCheckout);
   } else {
     console.error("Checkout button ('checkoutButton') not found!");
   }
 
   // Close button (X) for the side cart panel
   if (closeSideCartButton) {
-    closeSideCartButton.addEventListener('click', () => {
+    closeSideCartButton.addEventListener("click", () => {
       if (sideCartPanel) {
         sideCartPanel.classList.remove("is-visible");
       }
     });
   } else {
-    console.error("Close button ('closeSideCartButton') for side cart not found");
+    console.error(
+      "Close button ('closeSideCartButton') for side cart not found"
+    );
   }
 
   // Close button (X) for the checkout success modal
   if (closeModalButton) {
-    closeModalButton.addEventListener('click', closeModal);
+    closeModalButton.addEventListener("click", closeModal);
   }
 
   // OK button for the checkout success modal
   if (modalOkButton) {
-    modalOkButton.addEventListener('click', closeModal);
+    modalOkButton.addEventListener("click", closeModal);
   }
 
   // Clicking outside the checkout success modal content closes it
-  window.addEventListener('click', (event) => {
-    if (event.target === checkoutModal) { // If the click target is the modal background itself
+  window.addEventListener("click", (event) => {
+    if (event.target === checkoutModal) {
+      // If the click target is the modal background itself
       closeModal();
     }
   });
