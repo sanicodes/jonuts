@@ -104,9 +104,8 @@ function removeFromCart(name) {
 function updateCartDisplay() {
 	const cartContainer = document.getElementById('cartItemsContainer');
 	const cartTotalElement = document.getElementById('cartTotal');
-	// const cartItemCountElement = document.getElementById('cartItemCount'); // REMOVE this line
 
-	// Ensure elements exist (cartContainer and cartTotalElement)
+	// Ensure elements exist
 	if (!cartContainer || !cartTotalElement) {
 		console.error("Cart container or total element not found!");
 		return;
@@ -114,7 +113,6 @@ function updateCartDisplay() {
 
 	cartContainer.innerHTML = ''; // Clear current items
 	let total = 0;
-	// let itemCount = 0; // REMOVE this line
 
 	if (cart.length === 0) {
 		cartContainer.innerHTML = '<p style="padding: 15px;">Your cart is currently empty.</p>';
@@ -125,7 +123,6 @@ function updateCartDisplay() {
 
 			const itemSubtotal = item.price * item.quantity;
 			total += itemSubtotal;
-			// itemCount += item.quantity; // REMOVE this line
 
 			const escapedName = item.name.replace(/'/g, "\\'");
 
@@ -149,8 +146,9 @@ function updateCartDisplay() {
 	}
 
 	cartTotalElement.textContent = formatPrice(total);
-	// cartItemCountElement.textContent = itemCount; // REMOVE this line
-	// cartItemCountElement.style.display = itemCount > 0 ? 'inline-block' : 'none'; // REMOVE this line
+
+	// Update the cart item count badge
+	updateCartItemCount();
 }
 
 // Optional: Show feedback when item is added
@@ -466,6 +464,34 @@ function setupScrollAnimations() {
 	elementsToAnimate.forEach(el => observer.observe(el));
 }
 
+// --- Cart Button Functions ---
+function updateCartItemCount() {
+	const cartItemCountElement = document.getElementById('cartItemCount');
+	if (!cartItemCountElement) return;
+
+	// Calculate total items in cart
+	let itemCount = 0;
+	cart.forEach(item => {
+		itemCount += item.quantity;
+	});
+
+	// Update count and visibility
+	cartItemCountElement.textContent = itemCount;
+
+	if (itemCount > 0) {
+		cartItemCountElement.classList.remove('hidden');
+	} else {
+		cartItemCountElement.classList.add('hidden');
+	}
+}
+
+function toggleCartPanel() {
+	const sideCartPanel = document.getElementById('sideCartPanel');
+	if (sideCartPanel) {
+		sideCartPanel.classList.toggle('is-visible');
+	}
+}
+
 
 // --- Initial Setup ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -499,7 +525,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	} else {
 		console.error("Could not find side cart panel or its close button");
 	}
-
+	// Add this inside your DOMContentLoaded event listener
+	const cartFloatingButton = document.getElementById('cartFloatingButton');
+	if (cartFloatingButton) {
+		cartFloatingButton.addEventListener('click', toggleCartPanel);
+	}
 	// REMOVE old modal listeners
 	// const cartModal = document.getElementById('cartModal');
 	// const cartToggleButton = document.getElementById('cartToggleButton');
