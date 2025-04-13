@@ -1,0 +1,2694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jonuts - Delicious Donuts!</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Lato:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* Basic Reset & Defaults */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body,
+        html {
+            height: 100%;
+            line-height: 1.6;
+        }
+
+        /* --- Font Definitions --- */
+        body {
+            font-family: 'Lato', sans-serif;
+            /* Default body font */
+            font-size: 16px;
+            /* Base font size */
+            color: #333;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .main-title,
+        .section-title {
+            font-family: "Amatic SC", cursive, sans-serif;
+            /* Heading font */
+            font-weight: 700;
+            /* Ensure heading weight is applied */
+            letter-spacing: 2px;
+        }
+
+        /* Apply Amatic SC specifically where desired */
+        #menu h1 b,
+        /* Donut names in menu */
+        .main-title,
+        .section-title {
+            font-family: "Amatic SC", cursive, sans-serif;
+        }
+
+        /* Ensure paragraphs and other elements use Lato */
+        p,
+        .w3-text-grey,
+        .w3-input,
+        .w3-button,
+        .tablink,
+        #scoreBoard,
+        .testimonial-author {
+            font-family: 'Lato', sans-serif;
+        }
+
+        .testimonial-quote {
+            font-style: italic;
+            font-family: 'Lato', sans-serif;
+        }
+
+        /* --- Navbar --- */
+        .custom-navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: background-color 0.3s ease-in-out;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .custom-navbar-scrolled {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .custom-navbar .w3-bar-item {
+            padding: 12px 24px;
+            letter-spacing: 1px;
+            /* Slightly reduced letter spacing for navbar */
+            transition: background-color 0.2s ease;
+            font-family: 'Lato', sans-serif;
+            /* Navbar font */
+            font-weight: bold;
+            font-size: 1.1rem;
+            /* Adjusted navbar font size */
+        }
+
+        .custom-navbar .w3-bar-item:hover {
+            background-color: #ff69b4 !important;
+            color: #fff !important;
+            /* White text on pink hover */
+        }
+
+        /* --- Header --- */
+        .bgimg {
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: -1;
+        }
+
+        .bgimg video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.55);
+            border-radius: 15px;
+            max-width: 90%;
+        }
+
+        .header-content .main-title {
+            font-size: clamp(4rem, 15vw, 12rem);
+            color: #ffc0cb;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+            animation: fadeInScale 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .header-content p {
+            margin-top: 20px;
+        }
+
+        .header-content .w3-button {
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-family: "Amatic SC", cursive, sans-serif;
+            /* Button font */
+        }
+
+        .header-content .w3-button:hover {
+            transform: scale(1.05);
+            background-color: #ff69b4 !important;
+            color: #fff !important;
+        }
+
+        .tag-open {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 2;
+        }
+
+        /* --- General Section Styling --- */
+        .section-container {
+            padding-top: 80px;
+            /* Avoid navbar overlap */
+            padding-bottom: 64px;
+            border-bottom: 1px solid #eee;
+            /* Subtle separator */
+        }
+
+        #menu {
+            background-color: #fff;
+        }
+
+        /* White menu background */
+        #about {
+            background-color: #fdfdfd;
+        }
+
+        /* Slightly off-white about */
+        .testimonials-section {
+            background-color: #fff5f8;
+        }
+
+        /* Very light pink for testimonials */
+        .game-section {
+            background-color: #e0f7fa;
+        }
+
+        .contact-section {
+            background-color: #f4f4f4;
+        }
+
+        .section-title {
+            color: #d14580;
+            /* Darker pink for titles */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-size: clamp(3rem, 8vw, 5rem);
+            /* Responsive section titles */
+        }
+
+        /* --- About Section --- */
+        #about h1.section-title {
+            /* Target specifically */
+            color: #d14580;
+        }
+
+        .about-image {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Game Section --- */
+        .game-section h1.section-title {
+            color: #00796b;
+        }
+
+        #gameArea {
+            width: 80%;
+            max-width: 600px;
+            height: 400px;
+            border: 2px solid #b2dfdb;
+            /* Lighter border */
+            margin: 20px auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .falling-donut {
+            position: absolute;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://via.placeholder.com/50/FF69B4/FFFFFF?text=O');
+            /* Placeholder Donut */
+            background-size: cover;
+            border-radius: 50%;
+            cursor: pointer;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+            /* JS sets duration */
+        }
+
+        #scoreBoard {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #00796b;
+        }
+
+        .game-over-message {
+            color: #d32f2f;
+            /* Red color for game over */
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 15px;
+            height: 30px;
+            /* Allocate space even when empty */
+            text-align: center;
+            font-family: "Amatic SC", cursive, sans-serif;
+            /* Use heading font */
+            letter-spacing: 2px;
+            opacity: 0;
+            /* Hidden initially */
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .game-over-message.visible {
+            opacity: 1;
+            /* Make visible when game is over */
+        }
+
+        @keyframes fall {
+
+            /* Game animation */
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+
+            /* Ensure it goes fully past the bottom */
+        }
+
+        /* --- Contact Section --- */
+        .contact-section h1.section-title {
+            color: #d14580;
+        }
+
+        .contact-section p b {
+            color: #d14580;
+        }
+
+        .contact-section .w3-input {
+            border-radius: 5px;
+            /* Slightly rounded inputs */
+        }
+
+        .contact-section .w3-button {
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-section .w3-button:hover {
+            background-color: #c2185b !important;
+            /* Darker pink on hover */
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fall {
+
+            /* Game animation */
+            from {
+                top: -50px;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Scroll Animation Class */
+        .animate-on-scroll {
+            opacity: 0;
+            /* Start hidden */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Define different animation start states (JS will add 'visible' class) */
+        .animate-on-scroll.fade-in-up {
+            transform: translateY(30px);
+        }
+
+        .animate-on-scroll.fade-in-left {
+            transform: translateX(-50px);
+        }
+
+        .animate-on-scroll.fade-in-right {
+            transform: translateX(50px);
+        }
+
+        /* Add more types as needed */
+        /* State when element becomes visible */
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translate(0, 0);
+            /* Reset transform */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+
+            /* Adjust breakpoint for testimonials if needed */
+            .testimonial-card {
+                min-height: unset;
+                /* Allow height to adjust on smaller screens */
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 15px;
+            }
+
+            /* Slightly smaller base font */
+            .header-content .main-title {
+                font-size: 3.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .custom-navbar .w3-bar-item {
+                padding: 10px 14px;
+                font-size: 1rem;
+            }
+
+            .menu-tabs .w3-col {
+                width: 100%;
+                border-bottom: 1px solid #eee;
+            }
+
+            .menu-tabs .tablink {
+                border-bottom-color: transparent !important;
+            }
+
+            /* Remove bottom border when stacked */
+            .menu-tabs .tablink.active {
+                background-color: #f1f1f1;
+            }
+
+            #gameArea {
+                width: 95%;
+                height: 400px;
+            }
+
+            .w3-col.l4.m6 {
+                /* Ensure testimonials stack properly */
+                width: 100%;
+            }
+        }
+
+        /* --- Enhanced Menu Section with Consistent Sizes --- */
+        .menu-items-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .menu-item-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            border: 1px solid #f0f0f0;
+            /* Fixed height to ensure consistency */
+            min-height: 450px;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .menu-item-image {
+            position: relative;
+            overflow: hidden;
+            /* Fixed height for all images */
+            height: 200px;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .menu-item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .menu-item-card:hover .menu-item-img {
+            transform: scale(1.05);
+        }
+
+        .menu-item-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-title {
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            font-family: "Amatic SC", cursive, sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .menu-item-price {
+            font-weight: bold;
+            color: #d14580;
+            font-size: 20px;
+            background-color: #fff5f8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .menu-item-description {
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            /* Set height to ensure consistent text area */
+            min-height: 60px;
+            /* Line clamp to prevent overflow */
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .menu-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+            min-height: 28px;
+            /* Ensure consistent height even without tags */
+        }
+
+        .menu-item-tag {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        .menu-item-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: auto;
+        }
+
+        .menu-item-button {
+            background-color: #d14580;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+        }
+
+        .menu-item-button:hover {
+            background-color: #ff69b4;
+            transform: scale(1.03);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .menu-item-card {
+                min-height: 420px;
+            }
+
+            .menu-item-description {
+                min-height: 48px;
+            }
+        }
+
+        .menu-tabs .tablink {
+            transition: background-color 0.3s ease, color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 3px solid transparent;
+            color: #555;
+            font-weight: bold;
+            /* Bold tab links */
+        }
+
+        .menu-tabs .tablink:hover {
+            background-color: #f8a8bb;
+            color: #000;
+        }
+
+        .menu-tabs .tablink.active {
+            background-color: #fff;
+            color: #d14580;
+            border-bottom: 3px solid #d14580;
+        }
+
+        /* --- Cart Styles --- */
+        #cartToggleButton {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        #cartToggleButton:hover {
+            transform: scale(1.1);
+        }
+
+        #cartItemCount {
+            min-width: 20px;
+            /* Ensure badge looks okay even with single digit */
+            height: 20px;
+            line-height: 20px;
+            /* Vertically center number */
+            border-radius: 50%;
+        }
+
+        /* --- Side Cart Panel Styles --- */
+        .side-cart-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            /* Full height */
+            width: 350px;
+            /* Adjust width as needed */
+            max-width: 90vw;
+            /* Ensure it doesn't take full width on small screens */
+            background-color: #fefefe;
+            z-index: 1001;
+            /* Ensure it's above other content but potentially below top navbar if needed */
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            /* Stack header, content, footer vertically */
+            transform: translateX(100%);
+            /* Start hidden off-screen to the right */
+            transition: transform 0.4s ease-in-out;
+            /* Animation for sliding */
+        }
+
+        .side-cart-panel.is-visible {
+            transform: translateX(0);
+            /* Slide into view */
+        }
+
+        .side-cart-panel header {
+            flex-shrink: 0;
+            /* Prevent header from shrinking */
+        }
+
+        .side-cart-panel header h2 {
+            color: white;
+            /* Ensure heading text is visible */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .side-cart-panel #closeSideCartButton {
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .side-cart-panel #closeSideCartButton:hover {
+            color: #333;
+        }
+
+        .side-cart-panel .cart-items-container {
+            flex-grow: 1;
+            /* Allow container to take up available space */
+            overflow-y: auto;
+            /* Add scrollbar if content overflows */
+            padding: 10px 0px;
+            /* Add some padding */
+        }
+
+        /* Reuse cart item styles (adjust padding if needed) */
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            /* Adjusted padding for side panel */
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .cart-item-details .item-name {
+            font-weight: bold;
+        }
+
+        .cart-item-details .item-price {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-item-actions button {
+            background-color: #ddd;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+            line-height: 25px;
+            text-align: center;
+            font-weight: bold;
+            margin: 0 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .cart-item-actions button:hover {
+            background-color: #ccc;
+        }
+
+        .cart-item-actions .remove-item-btn {
+            background-color: #f44336;
+            /* Red */
+            color: white;
+            margin-left: 10px;
+        }
+
+        .cart-item-actions .remove-item-btn:hover {
+            background-color: #d32f2f;
+            /* Darker red */
+        }
+
+        .cart-item-actions span {
+            /* Quantity display */
+            min-width: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .side-cart-panel footer {
+            flex-shrink: 0;
+            /* Prevent footer from shrinking */
+            border-top: 1px solid #ddd;
+        }
+
+        /* Responsive adjustment */
+        @media (max-width: 600px) {
+            .side-cart-panel {
+                width: 85vw;
+                /* Make panel wider on small screens */
+            }
+
+            .cart-item {
+                font-size: 0.9rem;
+                /* Slightly smaller font in cart */
+            }
+
+            .cart-item-actions button {
+                width: 22px;
+                height: 22px;
+                line-height: 22px;
+            }
+        }
+
+        /* Floating Cart Button */
+        .cart-floating-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #d14580;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .cart-floating-button:hover {
+            transform: scale(1.1);
+            background-color: #ff69b4;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            margin-top: 2px;
+            margin-left: -2px;
+            color: white;
+        }
+
+        .cart-item-count {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #333;
+            color: white;
+            font-size: 12px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Hide cart count when zero */
+        .cart-item-count.hidden {
+            display: none;
+        }
+
+        /* --- Testimonial Carousel Styles --- */
+        .testimonial-carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .testimonial-carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            min-height: 350px;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Testimonial card styling adjusted for carousel */
+        /* Navigation controls */
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 105, 180, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 2;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .carousel-control:hover {
+            background-color: rgba(209, 69, 128, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-control.prev {
+            left: 5px;
+            margin: 0 auto;
+        }
+
+        .carousel-control.next {
+            right: 5px;
+            margin: 0 auto;
+        }
+
+        /* Carousel indicators/dots */
+        .carousel-indicators {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .carousel-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background-color: #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .carousel-dot.active {
+            background-color: #ff69b4;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 600px) {
+            .carousel-control {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+
+            .carousel-control.prev {
+                left: -15px;
+            }
+
+            .carousel-control.next {
+                right: -15px;
+            }
+
+            .testimonial-carousel-container {
+                width: 95%;
+            }
+        }
+
+        /* --- Testimonials Section --- */
+        .testimonials-section h1.section-title {
+            color: #c2185b;
+            /* Slightly different pink */
+        }
+
+        .testimonial-card {
+            padding: 25px;
+            border-radius: 12px;
+            background-color: white;
+            min-height: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 12px;
+            max-width: 85%;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .testimonial-quote {
+            font-size: 1.5rem;
+            color: #555;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            /* Allow quote to take up space */
+        }
+
+        .testimonial-author {
+            font-size: 1.5rem;
+            color: #d14580;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+
+        .testimonial-rating {
+            font-size: 1.1rem;
+            color: #ffc107;
+            /* Gold color for stars */
+            text-align: right;
+        }
+
+        .carousel-container {
+            width: 100%;
+        }
+
+        /* Hero section container */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        /* Full-screen video */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        /* Dark overlay for contrast */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        /* Text and buttons */
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-family: 'Amatic SC', cursive;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .hero-buttons a {
+            margin: 0 10px;
+        }
+
+        /* --- Navigation Bar Base Styles --- */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1b1b1b;
+            color: white;
+            /* Or your nav background */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0 15px;
+            /* Add some horizontal padding */
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            width: 100%;
+        }
+
+        .brand {
+            font-family: 'Amatic SC', cursive;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+            margin-right: 25px;
+            margin-left: 25px;
+        }
+
+        .brand .donut-icon {
+            /* Your existing icon styles */
+            height: 30px;
+            /* Example */
+            margin: 0 5px;
+            /* Example */
+        }
+
+        /* --- Desktop Navigation Styles (> 768px) --- */
+        .nav-collapsible {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .nav-links {
+            display: flex;
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        .nav-links a.active-link {
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        .nav-cta .contact-button {
+            padding: 8px 20px;
+            border: 1px solid #ff69b4;
+            color: #ff69b4;
+            background-color: transparent;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-cta {
+            margin-left: auto;
+        }
+
+        .nav-cta .contact-button:hover {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        /* Ensure active style for button if using click-based */
+        .nav-cta a.contact-button.active-link {
+            background-color: #ff69b4;
+            color: white;
+            border-color: #ff69b4;
+        }
+
+        /* Hide Hamburger on Desktop */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            /* Adjust size */
+            cursor: pointer;
+            color: #333;
+            /* Color of hamburger icon */
+        }
+
+        /* --- Mobile Navigation Styles (<= 768px) --- */
+        @media (max-width: 768px) {
+            .nav-container {
+                /* Adjust height if needed for mobile */
+                height: 55px;
+            }
+
+            /* Hide Desktop Links/Button Area */
+            .nav-collapsible {
+                display: none;
+                /* Hide initially */
+                position: absolute;
+                top: 100%;
+                /* Position below the navbar */
+                left: 0;
+                right: 0;
+                width: 100%;
+                background-color: #1b1b1b;
+                /* Background for dropdown */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                flex-direction: column;
+                /* Stack items vertically */
+                align-items: stretch;
+                /* Stretch items full width */
+                padding: 10px 0;
+                /* Add some padding */
+            }
+
+            /* Show the collapsible menu when 'open' class is added */
+            .nav-collapsible.mobile-menu-open {
+                display: flex;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                /* Stack links vertically */
+                width: 100%;
+                margin-right: 0;
+                /* Remove margin */
+                align-items: center;
+                /* Center links text */
+            }
+
+            .nav-links a {
+                padding: 12px 20px;
+                /* Adjust padding for mobile */
+                width: 100%;
+                text-align: center;
+                /* Center link text */
+                border-bottom: 1px solid #eee;
+                /* Separator lines */
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+                /* Remove border from last link */
+            }
+
+            .nav-cta {
+                margin-top: 10px;
+                /* Space above contact button */
+                padding: 10px 20px;
+                /* Padding around button */
+                width: 100%;
+                text-align: center;
+                /* Center the button */
+            }
+
+            .nav-cta .contact-button {
+                display: inline-block;
+                /* Ensure button respects text-align center */
+            }
+
+            /* Show Hamburger on Mobile */
+            .menu-toggle {
+                display: block;
+                /* Show the hamburger button */
+            }
+        }
+
+        /* Adjust body padding to prevent content overlap with fixed nav */
+        body {
+            padding-top: 60px;
+            /* Match .nav-container height */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 55px;
+                /* Match mobile .nav-container height */
+            }
+        }
+
+        /* Hero section with video */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            padding-top: 64px;
+            /* offset for fixed navbar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-family: 'Amatic SC', cursive;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .hero-buttons a {
+            margin: 10px 10px;
+        }
+
+        #checkoutButton {
+            /* Add any custom styles here, e.g., font-weight */
+            font-weight: bold;
+            padding: 12px 20px;
+            /* Adjust padding if needed */
+        }
+
+        /* --- Modal Styles --- */
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1002;
+            /* Sit on top (higher than side cart) */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.6);
+            /* Black w/ opacity */
+            /* Use flexbox to center modal content vertically and horizontally */
+            display: none;
+            /* Re-declare none initially */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            /* Auto margins help centering */
+            padding: 30px;
+            border: 1px solid #888;
+            width: 85%;
+            /* Responsive width */
+            max-width: 500px;
+            /* Maximum width */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            /* For positioning the close button */
+            text-align: center;
+            /* Center text inside */
+            animation: fadeInModal 0.4s ease-out;
+            /* Simple fade-in */
+        }
+
+        /* Close Button */
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            /* Position relative to modal-content */
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Simple Modal Fade-in Animation */
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Style for the OK button if needed */
+        #modalOkButton {
+            padding: 10px 30px;
+        }
+
+        /* --- About Us Section Styling --- */
+        .team-container {
+            display: flex;
+            /* Use flexbox for layout */
+            flex-wrap: wrap;
+            /* Allow cards to wrap onto the next line */
+            justify-content: center;
+            /* Center cards horizontally */
+            gap: 30px;
+            /* Space between cards */
+            margin-top: 40px;
+            /* Add some space above the cards */
+        }
+
+        .team-member-card {
+            background-color: #ffffff;
+            /* Card background */
+            border-radius: 10px;
+            /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            overflow: hidden;
+            /* Keep image within rounded corners */
+            text-align: center;
+            width: 220px;
+            /* Set a fixed width for cards */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            /* Use flex for internal layout */
+            flex-direction: column;
+            /* Stack image and info vertically */
+            max-height: 400px;
+        }
+
+        .team-member-card:hover {
+            transform: translateY(-8px);
+            /* Lift effect on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            /* Stronger shadow on hover */
+        }
+
+        .team-member-image img {
+            width: 100%;
+            /* Make image fill its container width */
+            height: 180px;
+            /* Fixed height for consistency */
+            object-fit: cover;
+            /* Cover the area, crop if necessary */
+            display: block;
+            /* Remove extra space below image */
+            border-bottom: 1px solid #eee;
+            /* Optional separator line */
+        }
+
+        .team-member-info {
+            padding: 20px 15px;
+            /* Padding inside the info section */
+            flex-grow: 1;
+            /* Allow info to take remaining space */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* Pushes bio down if roles are short */
+        }
+
+        .team-member-name {
+            font-family: 'Lato', sans-serif;
+            /* Or your preferred heading font */
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #333;
+            /* Darker text color */
+        }
+
+        .team-member-role {
+            font-size: 0.75rem;
+            color: #e91e63;
+            /* Use your theme's accent color (pink) */
+            margin-bottom: 12px;
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .team-member-bio {
+            font-size: 0.7rem;
+            color: #666;
+            /* Slightly lighter text for bio */
+            line-height: 1.5;
+            margin-top: auto;
+            /* Helps push bio down if needed */
+        }
+
+        /* Ensure scroll animation base styles are present */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive adjustments (optional) */
+        @media (max-width: 600px) {
+            .team-member-card {
+                width: 80%;
+                /* Make cards wider on small screens */
+                max-width: 300px;
+                /* But not too wide */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-nav">
+        <div class="nav-container">
+            <a href="#home" class="brand">
+                <span>J</span>
+                <img src="images/donut2.png" alt="Donut Logo" class="donut-icon">
+                <span>NUTS</span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"> &#9776; </button>
+            <div class="nav-collapsible" id="navCollapsible">
+                <div class="nav-links">
+                    <a href="#menu">MENU</a>
+                    <a href="#about">ABOUT</a>
+                    <a href="#testimonials">TESTIMONIALS</a>
+                    <a href="#game">CATCH THE DONUTS</a>
+                </div>
+                <div class="nav-cta">
+                    <a href="#contact" class="contact-button">CONTACT US</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hero Section -->
+    <header class="hero-section" id="home">
+        <video autoplay loop muted playsinline class="hero-video">
+            <source src="videos/donuts3.mp4" type="video/mp4"> Your browser does not support the video tag.
+        </video>
+        <!-- Overlay -->
+        <div class="hero-overlay"></div>
+        <!-- Text Content -->
+        <div class="hero-content">
+            <h1 class="hero-title">TIME TO DISCOVER <br>
+                <span style="color: #ffb6c1;">DELICIOUS DONUTS</span>
+            </h1>
+            <p class="hero-subtitle">We craft every donut with love and flavor. Come taste the difference.</p>
+            <div class="hero-buttons">
+                <a href="#menu" class="w3-button w3-pink w3-large w3-round-large">CHECK THE DONUTS</a>
+                <a href="#about"
+                    class="w3-button w3-transparent w3-border w3-border-white w3-large w3-round-large w3-text-white">LEARN
+                    MORE</a>
+            </div>
+        </div>
+    </header>
+    <div class="w3-container w3-padding-64 section-container" id="menu">
+        <div class="w3-content">
+            <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">THE MENU</h1>
+            <!-- Menu tabs/navigation -->
+            <div class="w3-row w3-center w3-border w3-border-dark-grey menu-tabs animate-on-scroll">
+                <a href="javascript:void(0)" onclick="openMenu(event, 'Donuts');">
+                    <div class="w3-col s3 tablink w3-padding-large active" id="defaultOpen">Donuts</div>
+                </a>
+                <a href="javascript:void(0)" onclick="openMenu(event, 'Drinks');">
+                    <div class="w3-col s3 tablink w3-padding-large">Drinks</div>
+                </a>
+                <a href="javascript:void(0)" onclick="openMenu(event, 'Breads');">
+                    <div class="w3-col s3 tablink w3-padding-large">Breads</div>
+                </a>
+                <a href="javascript:void(0)" onclick="openMenu(event, 'Specialties');">
+                    <div class="w3-col s3 tablink w3-padding-large">Specialties</div>
+                </a>
+            </div>
+            <!-- Menu content sections -->
+            <div id="Donuts" class="menu-content">
+                <div class="menu-items-container" id="donutMenuContainer">
+                    <!-- Donuts will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="Drinks" class="menu-content" style="display:none">
+                <div class="menu-items-container" id="drinkMenuContainer">
+                    <!-- Drinks will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="Breads" class="menu-content" style="display:none">
+                <div class="menu-items-container" id="breadMenuContainer">
+                    <!-- Breads will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <div id="Specialties" class="menu-content" style="display:none">
+                <div class="menu-items-container" id="specialtiesMenuContainer">
+                    <!-- Breads will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w3-container w3-padding-64 section-container" id="about">
+        <div class="w3-content">
+            <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">ABOUT US</h1>
+            <p class="animate-on-scroll w3-center" style="margin-bottom: 40px;"> Welcome to Jonuts! We started with a
+                simple passion: creating the most delightful donuts you've ever tasted. Meet the amazing team that makes
+                it all happen! </p>
+            <div class="team-container" id="aboutUsContainer"></div>
+            <p class="animate-on-scroll w3-center" style="margin-top: 40px;"> Come visit us and experience the joy of a
+                perfect donut! </p>
+        </div>
+    </div>
+    <div class="w3-container w3-padding-64 section-container testimonials-section" id="testimonials">
+        <div class="carousel-container">
+            <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">WHAT PEOPLE SAY</h1>
+            <!-- Carousel container -->
+            <div class="testimonial-carousel-container animate-on-scroll">
+                <!-- Testimonials will be inserted here by JavaScript -->
+                <div id="testimonialCarousel" class="testimonial-carousel">
+                    <!-- Content added by JS -->
+                </div>
+                <!-- Navigation buttons -->
+                <button class="carousel-control prev" onclick="moveCarousel(-1)">❮</button>
+                <button class="carousel-control next" onclick="moveCarousel(1)">❯</button>
+                <!-- Dots/indicators -->
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w3-container w3-padding-64 section-container game-section" id="game">
+        <div class="w3-content">
+            <h1 class="w3-center section-title animate-on-scroll">CATCH THE DONUTS!</h1>
+            <p class="w3-center animate-on-scroll">Click the falling donuts to score points!</p>
+            <div id="gameArea" class="animate-on-scroll"></div>
+            <div id="scoreBoard">Score: 0</div>
+            <div id="gameOverMessage" class="game-over-message"></div>
+            <button id="startGameButton" class="w3-button w3-pink w3-large w3-margin-top w3-round"
+                onclick="startGame()">Start Game</button>
+            <button id="stopGameButton" class="w3-button w3-grey w3-large w3-margin-top w3-round"
+                onclick="stopGame()">Stop Game</button>
+        </div>
+    </div>
+    <footer class="w3-container w3-padding-64 section-container contact-section" id="contact">
+        <div class="w3-content">
+            <h1 class="w3-center section-title animate-on-scroll" style="margin-bottom:64px">CONTACT US</h1>
+            <p class="animate-on-scroll">Find us at Jonuts Lane, Sweet Street 123, Mandaue City or call us at
+                0917-JONUTS (566887).</p>
+            <p class="animate-on-scroll">We're open <b>24/7</b>! </p>
+            <p class="animate-on-scroll">Want to partner with us or have a large order? Send us a message:</p>
+            <form id="contactForm" class="animate-on-scroll">
+                <p>
+                    <input class="w3-input w3-padding-16 w3-border" type="text" placeholder="Name" required name="Name">
+                </p>
+                <p>
+                    <input class="w3-input w3-padding-16 w3-border" type="number" placeholder="How many people" required
+                        name="People">
+                </p>
+                <p>
+                    <input class="w3-input w3-padding-16 w3-border" type="datetime-local" placeholder="Date and time"
+                        required name="date" value="2025-04-11T20:00">
+                </p>
+                <p>
+                    <input class="w3-input w3-padding-16 w3-border" type="text"
+                        placeholder="Message \ Special requirements" required name="Message">
+                </p>
+                <p>
+                    <button class="w3-button w3-pink w3-round-large w3-padding-large" type="submit">SEND
+                        MESSAGE</button>
+                </p>
+            </form>
+        </div>
+    </footer>
+    <div id="sideCartPanel" class="side-cart-panel">
+        <header class="w3-container w3-pink">
+            <span id="closeSideCartButton" class="w3-button w3-display-topright w3-xlarge"
+                style="padding: 8px 16px !important;">&times;</span>
+            <h2 style="font-family: 'Amatic SC', cursive; font-weight:700; margin: 10px 0;">Your Order</h2>
+        </header>
+        <div class="cart-items-container" id="cartItemsContainer">
+            <p style="padding: 15px;">Your cart is currently empty.</p>
+        </div>
+        <footer class="w3-container w3-light-grey w3-padding">
+            <h4>Total: <span id="cartTotal" style="font-weight:bold;">₱0.00</span>
+            </h4>
+            <p class="w3-small">
+                <i>Note: This is just a summary. Please pay at the counter.</i>
+            </p>
+            <button id="checkoutButton" class="w3-button w3-green w3-round-large w3-margin-top"
+                style="width:100%;">Proceed to Checkout</button>
+        </footer>
+    </div>
+    <div id="cartFloatingButton" class="cart-floating-button">
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div id="cartItemCount" class="cart-item-count">0</div>
+    </div>
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closeModalButton">&times;</span>
+            <h2 style="font-family: 'Amatic SC', cursive; font-weight:700; color: #4CAF50; margin-bottom: 15px;">
+                Checkout Submitted!</h2>
+            <p>Thank you for your order at Jonuts!</p>
+            <p>Please proceed to the counter and provide your Tracking Number to complete your payment.</p>
+            <div style="margin-top: 20px; padding: 15px; background-color: #f0f0f0; border-radius: 5px;">
+                <p style="margin-bottom: 5px;">
+                    <strong>Tracking Number:</strong>
+                    <span id="modalTrackingNumber" style="font-weight: bold; color: #d14580;"></span>
+                </p>
+                <p style="margin-bottom: 0;">
+                    <strong>Total Amount:</strong>
+                    <span id="modalTotalAmount" style="font-weight: bold;"></span>
+                </p>
+            </div>
+            <button id="modalOkButton" class="w3-button w3-pink w3-round-large w3-margin-top">OK</button>
+        </div>
+    </div>
+    <script>
+        /* === script.js === */
+        // --- Cart Data ---
+        let cart = []; // Initialize an empty cart array
+        // --- Data ---
+        const menuData = {
+            donuts: [{
+                name: "Glazed",
+                price: 50.0,
+                description: "A classic coated with powdered sugar glaze.",
+                image: "https://hips.hearstapps.com/hmg-prod/images/glazed-donut-recipe-1-65008ab2b45fb.jpg?crop=0.75xw:1xh;center,top&resize=1200:*",
+                tags: [],
+            }, {
+                name: "Bavarian",
+                price: 65.0,
+                description: "A yeast donut filled with a light and airy Bavarian cream.",
+                image: "https://i.ytimg.com/vi/A5eAJWahdJI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBLUBG2zrK7bh7eWK30dPX42h-ZnQ",
+                tags: [],
+            }, {
+                name: "Chocolate Sprinkles",
+                price: 70.0,
+                description: "Original Glazed doughnut hand-dipped in dreamy chocolate icing with lots of sprinkles.",
+                image: "https://mojo.generalmills.com/api/public/content/pEHpTfAJKUK1c6g3XMmcwg_webp_base.webp?v=1c943c90&t=191ddcab8d1c415fa10fa00a14351227",
+                tags: [],
+            }, {
+                name: "Strawberry Sprinkles",
+                price: 70.0,
+                description: "Original Glazed doughnut hand-dipped in dreamy strawberry icing with lots of sprinkles.",
+                image: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Strawberry_donut_with_sprinkles_%282%29.jpg",
+                tags: [],
+            }, {
+                name: "Triple Chocolate",
+                price: 75.0,
+                description: "Rich chocolate donut, chocolate filling, chocolate glaze.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1DXzpVFaOQNB8jdteBYe1E60KUUqJwLhwgg&s",
+                tags: ["Hot!"],
+            },],
+            drinks: [{
+                name: "Coffee",
+                price: 80.0,
+                description: "Freshly brewed local beans.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAakbybdBpsb_aI0OKprF9GbkFTstaZAz-uQ&s",
+                tags: [],
+            }, {
+                name: "Iced Tea",
+                price: 60.0,
+                description: "Refreshing house blend.",
+                image: "https://realfood.tesco.com/media/images/RFO-1400x919-IcedTea-8e156836-69f4-4433-8bae-c42e174212c1-0-1400x919.jpg",
+                tags: [],
+            }, {
+                name: "Milkshake",
+                price: 120.0,
+                description: "Choose from chocolate, vanilla, or strawberry.",
+                image: "https://www.allrecipes.com/thmb/uzxCGTc-5WCUZnZ7BUcYcmWKxjo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/AR-48974-vanilla-milkshake-hero-4x3-c815295c714f41f6b17b104e7403a53b.jpg",
+                tags: [],
+            },],
+            breads: [{
+                name: "Ensaymada",
+                price: 55.0,
+                description: "Soft, sweet bread topped with butter, sugar, and cheese.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScJghPWHjiBiJiG-G9muHDkYmXdK66Ve_DOA&s",
+                tags: [],
+            }, {
+                name: "Pan de Coco",
+                price: 45.0,
+                description: "Sweet roll filled with grated coconut.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjmcA5xQPUSTzmuUlbOI4orzoEXbUhHEWI_g&s",
+                tags: [],
+            },],
+            specialties: [{
+                name: "Ube jam (Ube jam)",
+                price: 99,
+                image: "images/specialties/1.jpg",
+                description: "Proof that Jam is actually a sweet, purple spread. Deliciously confusing.",
+                tags: [],
+            }, {
+                name: "Cessar Salad (Ceasar Salad)",
+                price: 155,
+                image: "images/specialties/2.jpg",
+                description: "Et tu, Cessar? Betray your hunger with this legendary salad. Fresh!",
+                tags: [],
+            }, {
+                name: "Jonana cue (Banana cue)",
+                price: 48,
+                image: "images/specialties/3.jpg",
+                description: "Warning: Do not attempt to peel the actual Jonana. Enjoy this sweet, sticky treat instead!",
+                tags: [],
+            }, {
+                name: "Gablic Shrimp (Garlic Shrimp)",
+                price: 212,
+                image: "images/specialties/4.jpg",
+                description: "Shrimply irresistible! Warning: May cause excessive Gab-like charm (and garlic breath).",
+                tags: [],
+            }, {
+                name: "Janapeño Poppers",
+                price: 167,
+                image: "images/specialties/5.jpg",
+                description: "Spicy like Jana, cheesy like... well, cheese. These poppers are dangerously good!",
+                tags: [],
+            }, {
+                name: "Lhousagna (Lasagna)",
+                price: 188,
+                image: "images/specialties/6.jpg",
+                description: "Get lost in the layers! Way more satisfying than trying to figure Lhou out. Mangia!",
+                tags: [],
+            }, {
+                name: "Bry lé Express (Bicol Express)",
+                price: 199,
+                image: "images/specialties/7.jpg",
+                description: "Faster than Bry running for the last piece! This Bicol Express twist is spicy & coconutty.",
+                tags: [],
+            },],
+        };
+        const testimonialData = [{
+            quote: "Absolutely the best donuts in Mandaue! Fresh, soft, and delicious. The Triple Chocolate is divine!",
+            author: "Maria S.",
+            rating: 5,
+        }, {
+            quote: "Open 24/7 is a lifesaver! Their glazed donuts are a classic done perfectly. Friendly staff too.",
+            author: "John D.",
+            rating: 5,
+        }, {
+            quote: "Tried the Bavarian cream donut and it was heavenly. So light and not too sweet. Will be back!",
+            author: "Angela P.",
+            rating: 5,
+        }, {
+            quote: "Great variety and always fresh. Love stopping by after work.",
+            author: "Carlo M.",
+            rating: 4,
+        },];
+        const aboutUsData = [{
+            name: "Johanne Amber Manatad",
+            role: "Founder & Head Baker",
+            image: "images/team/1.jpg",
+            bio: "The heart and soul behind Jonuts! Johanne blends passion with precision, crafting every donut recipe and ensuring each bite brings a moment of pure joy.",
+        }, {
+            name: "Princess Sandra Cuasito",
+            role: "Operations Manager",
+            image: "images/team/2.jpg",
+            bio: "The master organizer keeping the Jonuts engine running! Princess ensures smooth sailing from sourcing the best ingredients to getting those fresh donuts into your hands.",
+        }, {
+            name: "Jonamarie Pepito",
+            role: "Marketing & Brand Lead",
+            image: "images/team/3.jpg",
+            bio: "Sharing the Jonuts story far and wide! Jonamarie crafts our brand message and dreams up exciting campaigns to bring more donut lovers into the fold.",
+        }, {
+            name: "Sergio Gabrielle Cabugoy",
+            role: "Social Media & Content Creator",
+            image: "images/team/4.jpg",
+            bio: "Capturing the deliciousness! Sergio brings Jonuts to life online, creating mouth-watering content and engaging with our digital community one post at a time.",
+        }, {
+            name: "Jana Niña Villanueva",
+            role: "Community Engagement Specialist",
+            image: "images/team/5.jpg",
+            bio: "The friendly face of Jonuts! Jana thrives on connecting with our amazing customers, gathering feedback, and making sure everyone feels like part of the Jonuts family.",
+        }, {
+            name: "Lhouizze Ghien Mabatid",
+            role: "Creative Design & Visuals",
+            image: "images/team/6.jpg",
+            bio: "Making Jonuts look as good as it tastes! Lhouizze is the creative eye behind our branding, packaging, and visuals, ensuring everything is sweet perfection.",
+        }, {
+            name: "Bryle Hinaut",
+            role: "Partnerships & Events Coordinator",
+            image: "images/team/7.jpg",
+            bio: "Bringing Jonuts to the people! Bryle seeks out exciting collaborations and organizes events, spreading the donut love throughout the Cebu community.",
+        },];
+        // --- Helper Functions ---
+        function formatPrice(price) {
+            return `₱${price.toFixed(2)}`;
+        }
+
+        function generateStars(rating) {
+            // ... (keep existing function)
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                stars += (i < rating) ? '⭐' : '☆';
+            }
+            return stars;
+        }
+        // --- Cart Functions ---
+        // Add item to cart or increment quantity
+        function addToCart(name, price) {
+            const wasEmpty = cart.length === 0; // Check if cart is empty BEFORE adding
+            const existingItemIndex = cart.findIndex(item => item.name === name);
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                cart.push({
+                    name: name,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            updateCartDisplay(); // Update the visual cart
+            // If cart WAS empty and now has 1 item, show the panel
+            if (wasEmpty && cart.length > 0) {
+                document.getElementById('sideCartPanel')?.classList.add('is-visible');
+            }
+            // Optional: Add visual feedback if needed (e.g., brief animation/highlight)
+        }
+        // Change quantity or remove item
+        function changeQuantity(name, change) {
+            const itemIndex = cart.findIndex(item => item.name === name);
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += change;
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+            updateCartDisplay(); // Update display first
+            // If cart is now empty, hide the panel
+            if (cart.length === 0) {
+                document.getElementById('sideCartPanel')?.classList.remove('is-visible');
+            }
+        }
+        // Remove item completely from cart
+        function removeFromCart(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartDisplay(); // Update display first
+            // If cart is now empty, hide the panel
+            if (cart.length === 0) {
+                document.getElementById('sideCartPanel')?.classList.remove('is-visible');
+            }
+        }
+        // Update the HTML display of the cart panel and total
+        function updateCartDisplay() {
+            const cartContainer = document.getElementById('cartItemsContainer');
+            const cartTotalElement = document.getElementById('cartTotal');
+            // Ensure elements exist
+            if (!cartContainer || !cartTotalElement) {
+                console.error("Cart container or total element not found!");
+                return;
+            }
+            cartContainer.innerHTML = ''; // Clear current items
+            let total = 0;
+            if (cart.length === 0) {
+                cartContainer.innerHTML = ' < p style = "padding: 15px;" > Your cart is currently empty. < /p>';
+            } else {
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('cart-item');
+                    const itemSubtotal = item.price * item.quantity;
+                    total += itemSubtotal;
+                    const escapedName = item.name.replace(/'/g, "\\'"); // Escape single quotes for JS function calls
+                    itemElement.innerHTML = `
+                
+																	<div class="cart-item-details">
+																		<span class="item-name">${item.name}</span>
+																		<br>
+																			<span class="item-price">${formatPrice(item.price)} each</span>
+																		</div>
+																		<div class="cart-item-actions">
+																			<button onclick="changeQuantity('${escapedName}', -1)">-</button>
+																			<span>${item.quantity}</span>
+																			<button onclick="changeQuantity('${escapedName}', 1)">+</button>
+																			<button class="remove-item-btn" onclick="removeFromCart('${escapedName}')">&times;</button>
+																		</div>
+																		<div style="min-width: 60px; text-align: right; font-weight: bold;">
+                     ${formatPrice(itemSubtotal)}
+                 </div>
+            `;
+                    cartContainer.appendChild(itemElement);
+                });
+            }
+            cartTotalElement.textContent = formatPrice(total);
+            // Update the cart item count badge
+            updateCartItemCount();
+        }
+        // Optional: Show feedback when item is added
+        function showCartFeedback() {
+            const cartButton = document.getElementById('cartToggleButton');
+            if (cartButton) {
+                cartButton.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartButton.style.transform = 'scale(1)';
+                }, 200); // Revert scale after 200ms
+            }
+            // You could add more complex feedback like a small notification
+        }
+        let checkoutModal;
+        let closeModalButton;
+        let modalTrackingNumberSpan;
+        let modalTotalAmountSpan;
+        let modalOkButton;
+
+        function handleCheckout() {
+            // 1. Check if cart is empty
+            if (cart.length === 0) {
+                // Use the modal for the empty cart message too? Optional.
+                // For now, keep alert for this specific case.
+                alert("Your cart is empty. Add some delicious items before checking out!");
+                return; // Stop the function
+            }
+            // 2. Generate Tracking Number
+            const timestamp = Date.now();
+            const trackingNumber = `JONUTS-${timestamp.toString().slice(-6)}`;
+            // 3. Get Total Amount
+            const totalAmount = document.getElementById('cartTotal').textContent;
+            // 4. Populate Modal Content (Instead of alert)
+            if (modalTrackingNumberSpan && modalTotalAmountSpan) {
+                modalTrackingNumberSpan.textContent = trackingNumber;
+                modalTotalAmountSpan.textContent = totalAmount;
+            } else {
+                console.error("Modal content spans not found!");
+                // Fallback to alert if modal elements are missing
+                alert(`Checkout Submitted!\nTracking Number: ${trackingNumber}\nTotal: ${totalAmount}`);
+            }
+            // 5. Show the Modal
+            if (checkoutModal) {
+                checkoutModal.style.display = "flex"; // Use flex because CSS uses it for centering
+            }
+            // 6. Clear Cart Data (Still do this after showing modal)
+            cart = [];
+            // 7. Update Cart Display
+            updateCartDisplay();
+            // 8. Hide Side Cart Panel
+            const sideCartPanel = document.getElementById('sideCartPanel');
+            if (sideCartPanel) {
+                sideCartPanel.classList.remove('is-visible');
+            }
+        }
+
+        function closeModal() {
+            if (checkoutModal) {
+                checkoutModal.style.display = "none";
+            }
+        }
+        // --- Rendering Functions ---
+        function renderMenuItems(category, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container || !menuData[category]) return;
+            let html = '';
+            menuData[category].forEach(item => {
+                const tagsHtml = item.tags && item.tags.length > 0 ? item.tags.map(tag => `
+																		<span class="menu-item-tag">${tag}</span>`).join(' ') : '';
+                // Escape single quotes in item name for the onclick function call
+                const escapedName = item.name.replace(/'/g, "\\'");
+                html += `
+            
+																		<div class="menu-item-card">
+																			<div class="menu-item-image">
+																				<img src="${item.image}" alt="${item.name}" class="menu-item-img">
+																				</div>
+																				<div class="menu-item-content">
+																					<div class="menu-item-header">
+																						<h3 class="menu-item-title">${item.name}</h3>
+																						<span class="menu-item-price">${formatPrice(item.price)}</span>
+																					</div>
+																					<p class="menu-item-description">${item.description}</p>
+																					<div class="menu-item-tags">
+                        ${tagsHtml}
+                    </div>
+																					<div class="menu-item-actions">
+																						<button class="menu-item-button" onclick="addToCart('${escapedName}', ${item.price})">Add to Cart</button>
+																					</div>
+																				</div>
+																			</div>
+        `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderTestimonials(containerId) {
+            // ... (keep existing function)
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            let html = '';
+            testimonialData.forEach((testimonial, index) => {
+                html += `
+              
+																			<div class="w3-col l4 m6 w3-margin-bottom animate-on-scroll">
+																				<div class="testimonial-card w3-card w3-white">
+																					<div class="w3-container">
+																						<p class="testimonial-quote">"${testimonial.quote}"</p>
+																						<p class="testimonial-author">
+																							<b>- ${testimonial.author}</b>
+																						</p>
+																						<p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
+																					</div>
+																				</div>
+																			</div>
+          `;
+            });
+            // NOTE: The original code called renderTestimonials with 'testimonialContainer'
+            // but the ID in the HTML for the carousel is 'testimonialCarousel'.
+            // If testimonials should appear *outside* the carousel, 'testimonialContainer'
+            // needs to exist in the HTML. Assuming carousel only for now.
+            // If you need both, ensure the containerId passed matches an existing ID.
+            // container.innerHTML = html;
+            // setupScrollAnimations(); // Re-run animation setup after adding testimonials
+        }
+        // --- Navbar Scroll Effect ---
+        // ... (keep existing function)
+        const navbar = document.querySelector(".top-nav"); // Target the main nav container
+        window.onscroll = function () {
+            if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+                if (navbar) navbar.style.backgroundColor = "rgba(0, 0, 0, 0.9)"; // Example scrolled style
+            } else {
+                if (navbar) navbar.style.backgroundColor = "#1b1b1b"; // Reset to initial style
+            }
+        };
+        // --- Menu Tabs ---
+        // ... (keep existing function)
+        function openMenu(evt, menuName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("menu-content");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            const menuElement = document.getElementById(menuName);
+            if (menuElement) {
+                menuElement.style.display = "block";
+            }
+            // Ensure evt.currentTarget exists and has the target element
+            // Correctly add active class to the *parent* 'a' tag's div.tablink
+            if (evt && evt.currentTarget) {
+                const tablinkDiv = evt.currentTarget.querySelector('.tablink');
+                if (tablinkDiv) {
+                    tablinkDiv.classList.add("active");
+                }
+            }
+        }
+        // --- Game Logic ---
+        // ... (keep existing game logic: variables, prepareGame, resetGame, startGame, stopGame, gameOver, createDonut, updateScore)
+        const gameArea = document.getElementById('gameArea');
+        const scoreBoard = document.getElementById('scoreBoard');
+        const gameOverMessage = document.getElementById('gameOverMessage');
+        const startGameButton = document.getElementById('startGameButton');
+        const stopGameButton = document.getElementById('stopGameButton');
+        let score = 0;
+        let gameInterval = null;
+        let gameActive = false; // This flag is crucial
+        function prepareGame() {
+            const gameSection = document.getElementById('game');
+            if (gameSection) {
+                gameSection.style.display = 'block';
+                resetGame(); // Reset score/message if they click the nav link while game might be over
+                // Ensure buttons are in correct initial state
+                if (startGameButton) startGameButton.disabled = false;
+                if (stopGameButton) stopGameButton.disabled = true;
+            }
+        }
+
+        function resetGame() {
+            score = 0;
+            updateScore();
+            if (gameOverMessage) {
+                gameOverMessage.textContent = '';
+                gameOverMessage.classList.remove('visible');
+            }
+            // Clear any donuts only if the game area exists
+            if (gameArea) gameArea.innerHTML = '';
+            // Reset buttons
+            if (startGameButton) {
+                startGameButton.textContent = 'Start Game';
+                startGameButton.disabled = false;
+            }
+            if (stopGameButton) {
+                stopGameButton.disabled = true; // Should be disabled until game starts
+            }
+            console.log("Game Reset."); // DEBUG
+        }
+
+        function startGame() {
+            // Prevent starting if already active or gameArea doesn't exist
+            if (gameActive || !gameArea) return;
+            console.log("startGame() called. Setting gameActive = true."); // DEBUG
+            gameActive = true; // Set active *before* resetGame clears messages etc.
+            resetGame(); // Clear score, message, old donuts, reset button text
+            // Set button states for active game
+            if (stopGameButton) stopGameButton.disabled = false;
+            if (startGameButton) startGameButton.disabled = true;
+            // Start interval
+            if (gameInterval) clearInterval(gameInterval); // Clear just in case
+            gameInterval = setInterval(createDonut, 1200); // Spawn rate
+            console.log("Game interval started with ID:", gameInterval); // DEBUG
+        }
+
+        function stopGame() {
+            // Only act if the game is currently active
+            if (!gameActive) {
+                console.log("stopGame() called but game not active."); //DEBUG
+                return;
+            }
+            console.log("stopGame() called. Setting gameActive = false."); // DEBUG
+            gameActive = false; // Set inactive
+            if (gameInterval) {
+                console.log("Clearing interval ID in stopGame:", gameInterval); // DEBUG
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+            // Reset button states after stopping
+            if (startGameButton) {
+                startGameButton.textContent = 'Start Game';
+                startGameButton.disabled = false;
+            }
+            if (stopGameButton) {
+                stopGameButton.disabled = true;
+            }
+            console.log("stopGame() finished."); // DEBUG
+        }
+
+        function gameOver() {
+            // Check if game is actually active to prevent multiple calls
+            if (!gameActive) {
+                // console.log("gameOver() called but game already inactive."); // DEBUG - can be noisy
+                return;
+            }
+            console.log("gameOver() function called. Setting gameActive = false."); // DEBUG
+            gameActive = false; // Set inactive *immediately*
+            if (gameInterval) {
+                console.log("Clearing interval ID in gameOver:", gameInterval); // DEBUG
+                clearInterval(gameInterval);
+                gameInterval = null;
+            }
+            if (gameOverMessage) {
+                gameOverMessage.textContent = `Game Over! Final Score: ${score}`;
+                gameOverMessage.classList.add('visible');
+                console.log("Game Over message displayed."); // DEBUG
+            }
+            // Update buttons for game over state
+            if (startGameButton) {
+                startGameButton.textContent = 'Play Again?';
+                startGameButton.disabled = false; // Allow restart
+            }
+            if (stopGameButton) {
+                stopGameButton.disabled = true; // Cannot stop when game is over
+            }
+            console.log("gameOver() finished."); // DEBUG
+        }
+
+        function createDonut() {
+            if (!gameActive || !gameArea) {
+                return;
+            }
+            const donut = document.createElement('div');
+            donut.classList.add('falling-donut');
+            // Array of donut PNG image paths
+            const donutImages = ['images/donut1.png', 'images/donut2.png', 'images/donut3.png', 'images/donut4.png', 'images/donut5.png'
+                // Add paths to all your PNG files
+            ];
+            // Pick a random donut image
+            const randomImagePath = donutImages[Math.floor(Math.random() * donutImages.length)];
+            // Create image element
+            const img = document.createElement('img');
+            img.src = randomImagePath;
+            img.alt = 'Donut';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            // Add image to the donut div
+            donut.appendChild(img);
+            // Positioning logic
+            const gameAreaWidth = gameArea.offsetWidth;
+            const donutSize = 60; // Adjust based on your PNG sizes
+            donut.style.width = donutSize + 'px';
+            donut.style.height = donutSize + 'px';
+            if (gameAreaWidth > donutSize) {
+                donut.style.left = Math.random() * (gameAreaWidth - donutSize) + 'px';
+            } else {
+                donut.style.left = '0px';
+            }
+            // Animation duration
+            const fallDuration = Math.random() * 3 + 3;
+            donut.style.animationDuration = fallDuration + 's';
+            // Click listener
+            donut.addEventListener('click', function () {
+                if (!gameActive) return;
+                score++;
+                updateScore();
+                requestAnimationFrame(() => {
+                    if (donut.parentNode) {
+                        donut.remove();
+                    }
+                });
+            });
+            // Animation End Listener
+            donut.addEventListener('animationend', function handleAnimationEnd() {
+                // console.log(`animationend fired. gameActive: ${gameActive}`); // Can be noisy
+                // Only trigger gameOver if the game is *supposed* to be active
+                if (gameActive) {
+                    console.log("GAME OVER: Donut reached bottom without being clicked!");
+                    // Only remove if it still exists (might have been clicked just before end)
+                    if (donut.parentNode) {
+                        donut.remove();
+                    }
+                    gameOver(); // Trigger game over logic
+                } else {
+                    // If game isn't active (stopped or already over), just remove the element
+                    if (donut.parentNode) {
+                        donut.remove();
+                    }
+                }
+            });
+            if (gameArea) {
+                gameArea.appendChild(donut);
+            }
+        }
+
+        function updateScore() {
+            if (scoreBoard) scoreBoard.textContent = 'Score: ' + score;
+        }
+        // --- Scroll Animations (Intersection Observer) ---
+        // ... (keep existing function)
+        let observer;
+
+        function setupScrollAnimations() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            const observerCallback = (entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Add specific animation classes if needed, e.g., for testimonials
+                        if (entry.target.classList.contains('testimonial-card') || entry.target.closest('.testimonial-card')) {
+                            entry.target.closest('.animate-on-scroll')?.classList.add('fade-in-up'); // Apply to parent if needed
+                            // entry.target.style.transitionDelay = `${(index % 3) * 100}ms`; // Delay based on grid position - might not work well with carousel
+                        } else {
+                            entry.target.classList.add('fade-in-up'); // Default animation
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+            if (observer) observer.disconnect(); // Disconnect old one if re-running
+            observer = new IntersectionObserver(observerCallback, observerOptions);
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            elementsToAnimate.forEach(el => observer.observe(el));
+        }
+        // --- Cart Button Functions ---
+        function updateCartItemCount() {
+            const cartItemCountElement = document.getElementById('cartItemCount');
+            if (!cartItemCountElement) return;
+            // Calculate total items in cart
+            let itemCount = 0;
+            cart.forEach(item => {
+                itemCount += item.quantity;
+            });
+            // Update count and visibility
+            cartItemCountElement.textContent = itemCount;
+            // Use a class to hide/show instead of direct style manipulation
+            if (itemCount > 0) {
+                cartItemCountElement.classList.remove('hidden');
+            } else {
+                cartItemCountElement.classList.add('hidden');
+            }
+        }
+
+        function toggleCartPanel() {
+            const sideCartPanel = document.getElementById('sideCartPanel');
+            if (sideCartPanel) {
+                sideCartPanel.classList.toggle('is-visible');
+            }
+        }
+        // --- Carousel variables ---
+        let currentSlide = 0;
+        let autoPlayInterval;
+        const slideInterval = 5000; // Time between auto-slides (milliseconds)
+        // --- Testimonial Carousel functions ---
+        function renderTestimonialsCarousel() {
+            const carouselContainer = document.getElementById('testimonialCarousel');
+            const indicatorsContainer = document.getElementById('carouselIndicators');
+            if (!carouselContainer || !indicatorsContainer) return;
+            // Clear previous content
+            carouselContainer.innerHTML = '';
+            indicatorsContainer.innerHTML = '';
+            // Create slides
+            testimonialData.forEach((testimonial, index) => {
+                const slide = document.createElement('div');
+                slide.classList.add('carousel-slide');
+                // Wrap testimonial card in the animate-on-scroll div for carousel
+                slide.innerHTML = `
+             
+																			<div class="animate-on-scroll">
+																				<div class="testimonial-card">
+																					<p class="testimonial-quote">"${testimonial.quote}"</p>
+																					<div>
+																						<p class="testimonial-author">
+																							<b>- ${testimonial.author}</b>
+																						</p>
+																						<p class="testimonial-rating">${generateStars(testimonial.rating)}</p>
+																					</div>
+																				</div>
+																			</div>
+        `;
+                carouselContainer.appendChild(slide);
+                // Create indicator dot
+                const dot = document.createElement('span');
+                dot.classList.add('carousel-dot');
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = function () {
+                    goToSlide(index);
+                };
+                indicatorsContainer.appendChild(dot);
+            });
+            // Set initial position
+            updateCarouselPosition();
+            // Start auto-play
+            startAutoPlay();
+            // Re-setup scroll animations AFTER adding carousel content
+            setupScrollAnimations();
+        }
+
+        function updateCarouselPosition() {
+            const carousel = document.getElementById('testimonialCarousel');
+            if (!carousel) return;
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            // Update active dot indicator
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function moveCarousel(direction) {
+            const totalSlides = testimonialData.length;
+            if (totalSlides === 0) return; // Prevent errors if no testimonials
+            // Calculate next slide position
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            // Update carousel position
+            updateCarouselPosition();
+            // Reset auto-play timer when manually navigated
+            resetAutoPlay();
+        }
+
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateCarouselPosition();
+            resetAutoPlay();
+        }
+
+        function startAutoPlay() {
+            stopAutoPlay(); // Clear any existing interval first
+            if (testimonialData.length > 1) { // Only autoplay if more than one slide
+                autoPlayInterval = setInterval(() => {
+                    moveCarousel(1); // Move forward one slide
+                }, slideInterval);
+            }
+        }
+
+        function resetAutoPlay() {
+            // Reset the auto-play timer
+            stopAutoPlay();
+            startAutoPlay();
+        }
+
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null; // Clear the interval ID
+        }
+
+        function setUpActiveLink() {
+            // Select all links within the main navigation area
+            const navLinks = document.querySelectorAll('.nav-links a');
+            // Optional: Select the 'Contact Us' button if it should also participate
+            const contactButton = document.querySelector('.nav-cta a.contact-button');
+            // Combine all links/buttons that should have the active state behavior
+            const allNavItems = [...navLinks]; // Create an array from NodeList
+            if (contactButton) {
+                allNavItems.push(contactButton); // Add the contact button to the array
+            }
+            // Function to remove active class from ALL navigation items
+            function removeActiveClasses() {
+                allNavItems.forEach(item => {
+                    item.classList.remove('active-link'); // Remove the class from every item
+                });
+            }
+            // Add click listener to each navigation item
+            allNavItems.forEach(item => {
+                item.addEventListener('click', function (event) {
+                    // WHEN A LINK IS CLICKED:
+                    // 1. FIRST, remove 'active-link' from ALL items
+                    removeActiveClasses();
+                    // 2. THEN, add 'active-link' ONLY to the item that was just clicked ('this')
+                    this.classList.add('active-link');
+                    // The default link behavior (scrolling to the section) still happens automatically
+                });
+            });
+        }
+
+        function setUpMenuToggle() {
+            const menuToggle = document.getElementById('menuToggle');
+            const navCollapsible = document.getElementById('navCollapsible');
+            if (menuToggle && navCollapsible) {
+                menuToggle.addEventListener('click', () => {
+                    // Toggle the 'mobile-menu-open' class on the collapsible container
+                    navCollapsible.classList.toggle('mobile-menu-open');
+                    // Optional: Change hamburger icon to 'X' when open
+                    if (navCollapsible.classList.contains('mobile-menu-open')) {
+                        menuToggle.innerHTML = '&times;'; // 'X' symbol
+                    } else {
+                        menuToggle.innerHTML = '&#9776;'; // Hamburger symbol
+                    }
+                });
+                // Optional: Close menu when a link inside it is clicked
+                navCollapsible.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (navCollapsible.classList.contains('mobile-menu-open')) {
+                            navCollapsible.classList.remove('mobile-menu-open');
+                            menuToggle.innerHTML = '&#9776;'; // Reset hamburger icon
+                        }
+                    });
+                });
+            }
+        }
+
+        function setupModals() {
+            // *** NEW: Assign Modal Elements ***
+            checkoutModal = document.getElementById("checkoutModal");
+            closeModalButton = document.getElementById("closeModalButton");
+            modalTrackingNumberSpan = document.getElementById("modalTrackingNumber");
+            modalTotalAmountSpan = document.getElementById("modalTotalAmount");
+            modalOkButton = document.getElementById("modalOkButton"); // Get the OK button
+            const checkoutButton = document.getElementById('checkoutButton');
+            if (closeSideCartButton && sideCartPanel) {
+                closeSideCartButton.onclick = function () {
+                    sideCartPanel.classList.remove('is-visible');
+                }
+            } else {
+                console.error("Could not find side cart panel or its close button");
+            }
+            if (checkoutButton) {
+                checkoutButton.addEventListener('click', handleCheckout);
+            } else {
+                console.error("Checkout button not found!");
+            }
+            const cartFloatingButton = document.getElementById('cartFloatingButton');
+            if (cartFloatingButton) {
+                cartFloatingButton.addEventListener('click', toggleCartPanel);
+            }
+            // *** NEW: Modal Close Event Listeners ***
+            if (closeModalButton) {
+                closeModalButton.onclick = closeModal;
+            }
+            if (modalOkButton) { // Make OK button close the modal too
+                modalOkButton.onclick = closeModal;
+            }
+            // Close modal if user clicks outside the modal content
+            window.onclick = function (event) {
+                if (event.target == checkoutModal) {
+                    closeModal();
+                }
+            }
+        }
+
+        function renderAboutUs(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error("About Us container not found:", containerId);
+                return;
+            }
+            let html = '';
+            aboutUsData.forEach(member => {
+                // Each card gets the animate-on-scroll class
+                html += `
+            
+																			<div class="team-member-card animate-on-scroll">
+																				<div class="team-member-image">
+																					<img src="${member.image}" alt="Photo of ${member.name}">
+																					</div>
+																					<div class="team-member-info">
+																						<h3 class="team-member-name">${member.name}</h3>
+																						<p class="team-member-role">${member.role}</p>
+																						<p class="team-member-bio">${member.bio}</p>
+																					</div>
+																				</div>
+        `;
+            });
+            container.innerHTML = html;
+            // Optional: If you want to re-run animations specifically after adding these:
+            // setupScrollAnimations(); // Might be better to call once after all rendering in DOMContentLoaded
+        }
+        // --- Initial Setup ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render dynamic content FIRST
+            renderMenuItems('donuts', 'donutMenuContainer');
+            renderMenuItems('drinks', 'drinkMenuContainer');
+            renderMenuItems('breads', 'breadMenuContainer');
+            renderMenuItems('specialties', 'specialtiesMenuContainer');
+            renderAboutUs('aboutUsContainer'); // <-- CALL THE NEW FUNCTION HERE
+            // renderTestimonials('testimonialContainer'); // Only if separate non-carousel testimonials exist
+            renderTestimonialsCarousel(); // Renders carousel AND sets up animations for it
+            setUpActiveLink();
+            setUpMenuToggle();
+            setupModals();
+            // Set initial menu state
+            if (document.getElementById("defaultOpen")) {
+                // Find the parent 'a' tag and simulate click on it
+                document.getElementById("defaultOpen").closest('a').click();
+            } else {
+                // Fallback if defaultOpen doesn't exist
+                const firstMenu = document.querySelector('.menu-content');
+                if (firstMenu) firstMenu.style.display = 'block';
+                const firstTabLink = document.querySelector('.tablink');
+                if (firstTabLink) firstTabLink.classList.add('active');
+            }
+            resetGame();
+
+            // --- Side Cart Panel Setup ---
+            const sideCartPanel = document.getElementById('sideCartPanel');
+            const closeSideCartButton = document.getElementById('closeSideCartButton');
+            const checkoutButton = document.getElementById('checkoutButton'); // Get checkout button
+            if (closeSideCartButton && sideCartPanel) {
+                closeSideCartButton.onclick = function () {
+                    sideCartPanel.classList.remove('is-visible'); // Hide panel on close click
+                }
+            } else {
+                console.error("Could not find side cart panel or its close button");
+            }
+            // Add event listener for the checkout button
+            if (checkoutButton) {
+                checkoutButton.addEventListener('click', handleCheckout);
+            } else {
+                console.error("Checkout button not found!");
+            }
+            const cartFloatingButton = document.getElementById('cartFloatingButton');
+            if (cartFloatingButton) {
+                cartFloatingButton.addEventListener('click', toggleCartPanel);
+            }
+            updateCartDisplay(); // Initial cart display update
+
+            const contactForm = document.getElementById('contactForm');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (event) {
+                    event.preventDefault()
+                    alert("message has been sent, Thank you for your reservation!");
+                });
+            } else {
+                console.error("Contact form with ID 'contactForm' not found.");
+            }
+        });
+    </script>
+</body>
+
+</html>
