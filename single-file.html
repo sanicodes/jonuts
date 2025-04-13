@@ -1712,7 +1712,6 @@
             <h2 style="font-family: 'Amatic SC', cursive; font-weight:700; margin: 10px 0;">Your Order</h2>
         </header>
         <div class="cart-items-container" id="cartItemsContainer">
-            <p style="padding: 15px;">Your cart is currently empty.</p>
         </div>
         <footer class="w3-container w3-light-grey w3-padding">
             <h4>Total: <span id="cartTotal" style="font-weight:bold;">₱0.00</span>
@@ -1880,6 +1879,7 @@
             author: "Carlo M.",
             rating: 4,
         },];
+        
         const aboutUsData = [{
             name: "Johanne Amber Manatad",
             role: "Founder & Head Baker",
@@ -1986,7 +1986,7 @@
             cartContainer.innerHTML = ''; // Clear current items
             let total = 0;
             if (cart.length === 0) {
-                cartContainer.innerHTML = ' < p style = "padding: 15px;" > Your cart is currently empty. < /p>';
+                cartContainer.innerHTML = '<p style = "padding: 15px;" > Your cart is currently empty. </p>';
             } else {
                 cart.forEach(item => {
                     const itemElement = document.createElement('div');
@@ -2038,10 +2038,8 @@
         function handleCheckout() {
             // 1. Check if cart is empty
             if (cart.length === 0) {
-                // Use the modal for the empty cart message too? Optional.
-                // For now, keep alert for this specific case.
                 alert("Your cart is empty. Add some delicious items before checking out!");
-                return; // Stop the function
+                return;
             }
             // 2. Generate Tracking Number
             const timestamp = Date.now();
@@ -2133,16 +2131,8 @@
 																			</div>
           `;
             });
-            // NOTE: The original code called renderTestimonials with 'testimonialContainer'
-            // but the ID in the HTML for the carousel is 'testimonialCarousel'.
-            // If testimonials should appear *outside* the carousel, 'testimonialContainer'
-            // needs to exist in the HTML. Assuming carousel only for now.
-            // If you need both, ensure the containerId passed matches an existing ID.
-            // container.innerHTML = html;
-            // setupScrollAnimations(); // Re-run animation setup after adding testimonials
         }
         // --- Navbar Scroll Effect ---
-        // ... (keep existing function)
         const navbar = document.querySelector(".top-nav"); // Target the main nav container
         window.onscroll = function () {
             if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
@@ -2152,7 +2142,6 @@
             }
         };
         // --- Menu Tabs ---
-        // ... (keep existing function)
         function openMenu(evt, menuName) {
             var i, x, tablinks;
             x = document.getElementsByClassName("menu-content");
@@ -2167,8 +2156,7 @@
             if (menuElement) {
                 menuElement.style.display = "block";
             }
-            // Ensure evt.currentTarget exists and has the target element
-            // Correctly add active class to the *parent* 'a' tag's div.tablink
+
             if (evt && evt.currentTarget) {
                 const tablinkDiv = evt.currentTarget.querySelector('.tablink');
                 if (tablinkDiv) {
@@ -2177,7 +2165,6 @@
             }
         }
         // --- Game Logic ---
-        // ... (keep existing game logic: variables, prepareGame, resetGame, startGame, stopGame, gameOver, createDonut, updateScore)
         const gameArea = document.getElementById('gameArea');
         const scoreBoard = document.getElementById('scoreBoard');
         const gameOverMessage = document.getElementById('gameOverMessage');
@@ -2214,13 +2201,11 @@
             if (stopGameButton) {
                 stopGameButton.disabled = true; // Should be disabled until game starts
             }
-            console.log("Game Reset."); // DEBUG
         }
 
         function startGame() {
             // Prevent starting if already active or gameArea doesn't exist
             if (gameActive || !gameArea) return;
-            console.log("startGame() called. Setting gameActive = true."); // DEBUG
             gameActive = true; // Set active *before* resetGame clears messages etc.
             resetGame(); // Clear score, message, old donuts, reset button text
             // Set button states for active game
@@ -2229,19 +2214,15 @@
             // Start interval
             if (gameInterval) clearInterval(gameInterval); // Clear just in case
             gameInterval = setInterval(createDonut, 1200); // Spawn rate
-            console.log("Game interval started with ID:", gameInterval); // DEBUG
         }
 
         function stopGame() {
             // Only act if the game is currently active
             if (!gameActive) {
-                console.log("stopGame() called but game not active."); //DEBUG
                 return;
             }
-            console.log("stopGame() called. Setting gameActive = false."); // DEBUG
             gameActive = false; // Set inactive
             if (gameInterval) {
-                console.log("Clearing interval ID in stopGame:", gameInterval); // DEBUG
                 clearInterval(gameInterval);
                 gameInterval = null;
             }
@@ -2253,26 +2234,21 @@
             if (stopGameButton) {
                 stopGameButton.disabled = true;
             }
-            console.log("stopGame() finished."); // DEBUG
         }
 
         function gameOver() {
             // Check if game is actually active to prevent multiple calls
             if (!gameActive) {
-                // console.log("gameOver() called but game already inactive."); // DEBUG - can be noisy
                 return;
             }
-            console.log("gameOver() function called. Setting gameActive = false."); // DEBUG
             gameActive = false; // Set inactive *immediately*
             if (gameInterval) {
-                console.log("Clearing interval ID in gameOver:", gameInterval); // DEBUG
                 clearInterval(gameInterval);
                 gameInterval = null;
             }
             if (gameOverMessage) {
                 gameOverMessage.textContent = `Game Over! Final Score: ${score}`;
                 gameOverMessage.classList.add('visible');
-                console.log("Game Over message displayed."); // DEBUG
             }
             // Update buttons for game over state
             if (startGameButton) {
@@ -2282,7 +2258,6 @@
             if (stopGameButton) {
                 stopGameButton.disabled = true; // Cannot stop when game is over
             }
-            console.log("gameOver() finished."); // DEBUG
         }
 
         function createDonut() {
@@ -2331,10 +2306,8 @@
             });
             // Animation End Listener
             donut.addEventListener('animationend', function handleAnimationEnd() {
-                // console.log(`animationend fired. gameActive: ${gameActive}`); // Can be noisy
                 // Only trigger gameOver if the game is *supposed* to be active
                 if (gameActive) {
-                    console.log("GAME OVER: Donut reached bottom without being clicked!");
                     // Only remove if it still exists (might have been clicked just before end)
                     if (donut.parentNode) {
                         donut.remove();
@@ -2356,7 +2329,6 @@
             if (scoreBoard) scoreBoard.textContent = 'Score: ' + score;
         }
         // --- Scroll Animations (Intersection Observer) ---
-        // ... (keep existing function)
         let observer;
 
         function setupScrollAnimations() {
@@ -2625,8 +2597,6 @@
         `;
             });
             container.innerHTML = html;
-            // Optional: If you want to re-run animations specifically after adding these:
-            // setupScrollAnimations(); // Might be better to call once after all rendering in DOMContentLoaded
         }
         // --- Initial Setup ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -2635,9 +2605,8 @@
             renderMenuItems('drinks', 'drinkMenuContainer');
             renderMenuItems('breads', 'breadMenuContainer');
             renderMenuItems('specialties', 'specialtiesMenuContainer');
-            renderAboutUs('aboutUsContainer'); // <-- CALL THE NEW FUNCTION HERE
-            // renderTestimonials('testimonialContainer'); // Only if separate non-carousel testimonials exist
-            renderTestimonialsCarousel(); // Renders carousel AND sets up animations for it
+            renderAboutUs('aboutUsContainer'); 
+            renderTestimonialsCarousel();
             setUpActiveLink();
             setUpMenuToggle();
             setupModals();
