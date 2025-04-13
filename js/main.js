@@ -70,5 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Error during UI setup:", error);
   }
 
+  const contactForm = document.getElementById("contactForm");
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      alert("message has been sent, Thank you for your reservation!");
+    });
+  } else {
+    console.error("Contact form with ID 'contactForm' not found.");
+  }
+
   console.log("App Initialized.");
 }); // End DOMContentLoaded
