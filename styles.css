@@ -281,6 +281,7 @@ p,
 	opacity: 0;
 	/* Hidden initially */
 	transition: opacity 0.5s ease-in-out;
+	z-index: 20;
 }
 
 

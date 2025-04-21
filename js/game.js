@@ -18,7 +18,6 @@ function updateScore() {
 export function resetGame() {
   if (!gameArea || !scoreBoard || !gameOverMessage || !startGameButton || !stopGameButton) {
     console.warn("One or more game elements not found during reset.");
-    // Don't proceed if core elements are missing
     return;
   }
   score = 0;
@@ -46,8 +45,16 @@ export function startGame() {
     return; // Prevent starting multiple times or without area
   }
 
+  // Clear existing donuts and message before starting
+  if (gameArea) gameArea.innerHTML = "";
+  if (gameOverMessage) {
+    gameOverMessage.textContent = "";
+    gameOverMessage.classList.remove("visible");
+  }
+
   gameActive = true; // Set active flag
-  resetGame();       // Clear previous state (score, donuts, messages)
+  score = 0; // Reset score
+  updateScore();
 
   // Update button states for active game
   if (startGameButton) startGameButton.disabled = true;
@@ -108,7 +115,6 @@ function gameOver() {
   }
 }
 
-
 // --- Donut Creation and Interaction ---
 
 function createDonut() {
@@ -150,6 +156,7 @@ function createDonut() {
   donut.style.height = `${donutSize}px`;
   donut.style.position = 'absolute'; // Crucial for left/top positioning
   donut.style.top = `-${donutSize}px`; // Start above the game area
+  donut.style.zIndex = '10'; // Add this to ensure donuts appear above the message
 
   // Ensure left position is within bounds
   if (gameAreaWidth > donutSize) {
@@ -163,7 +170,8 @@ function createDonut() {
   donut.style.animation = `fall ${fallDuration}s linear forwards`; // Use keyframes named 'fall'
 
   // Click Listener (Catching the donut)
-  donut.addEventListener("click", () => {
+  donut.addEventListener("click", (e) => {
+    e.stopPropagation(); // Prevent click from bubbling up
     if (!gameActive) return; // Don't score if game isn't active
     score++;
     updateScore();
@@ -184,22 +192,6 @@ function createDonut() {
 
   gameArea.appendChild(donut);
 }
-
-// Add keyframes CSS for the 'fall' animation in your style.css
-/*
-@keyframes fall {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(calc(100vh + 50px)); // Adjust '100vh' if game area isn't full height, '+ 50px' ensures it goes fully off screen
-  }
-}
-.falling-donut {
-    position: absolute; // Make sure this is set
-    // ... other styles ...
-}
-*/
 
 // Function to initially prepare the game section (e.g., when clicking a nav link)
 export function prepareGame() {
